@@ -9,14 +9,14 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 
 ## Run locally
 
-Use Node.js 22.18+ or 24+. The calculator uses Vite.
+Use Node.js 22.18+ or 24+. The calculator uses Vite and TypeScript.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open [the local calculator](http://127.0.0.1:3001). Run `npm test` to check the boost rules and build links. Run `npm run build` to build the static site into `dist/`, then `npm run preview` to check that build locally.
+Open [the local calculator](http://127.0.0.1:3001). Run `npm test` to check the boost rules and build links. Run `npm run build` to type-check and build the static site into `dist/`, then `npm run preview` to check that build locally.
 
 ## Deploy to Vercel
 

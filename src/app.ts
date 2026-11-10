@@ -1,18 +1,29 @@
-import { ancestryRule, backgroundSlots, calculate, classKeys, normalizeBuild, parseBuild, serializeBuild } from "./build.js";
-import { ancestries, attributeIds, attributes, backgrounds, classes } from "./options.js";
+import { ancestryRule, attributeChoice, backgroundSlots, calculate, classKeys, normalizeBuild, parseBuild, serializeBuild } from "./build.ts";
+import type { AttributeChoice, Build } from "./build.ts";
+import { ancestries, attributeIds, attributes, backgrounds, classes, isAttribute, milestones } from "./options.ts";
+import type { Attribute, Milestone } from "./options.ts";
 
-const byId = (id) => document.getElementById(id);
+function byId(id: string): HTMLElement;
+function byId<T extends HTMLElement>(id: string, type: new () => T): T;
+function byId(id: string, type: new () => HTMLElement = HTMLElement): HTMLElement {
+  const element = document.getElementById(id);
+  if (!(element instanceof type)) throw new Error(`Missing or invalid element #${id}`);
+  return element;
+}
+
+const setup = byId("setup");
+const flawDetails = byId("voluntary-flaws", HTMLDetailsElement);
 const requestedBuild = new URLSearchParams(location.search).get("build");
 const restored = requestedBuild === null ? null : parseBuild(requestedBuild);
 const initialBuild = serializeBuild(normalizeBuild());
 const maxBackupSize = 64 * 1024;
 let build = restored ?? normalizeBuild();
-let previousBuild = null;
+let previousBuild: { build: Build; label: string; focusId: string } | null = null;
 let feedbackRevision = 0;
 
-function optionsFor(catalog, placeholder, custom) {
+function optionsFor(catalog: Record<string, { name: string; core2?: boolean }>, placeholder: string, custom: string) {
   const entries = Object.entries(catalog);
-  const group = (core2) => entries
+  const group = (core2: boolean) => entries
     .filter(([, option]) => Boolean(option.core2) === core2)
     .map(([id, option]) => `<option value="${id}">${option.name}</option>`)
     .join("");
@@ -28,7 +39,10 @@ byId("background").innerHTML = optionsFor(backgrounds, "Choose a background", "C
 byId("character-class").innerHTML = optionsFor(classes, "Choose a class", "Custom class");
 byId("level").innerHTML = Array.from({ length: 20 }, (_, index) => `<option>${index + 1}</option>`).join("");
 
-function field(id, label, choices, value, empty = "Choose attribute", names = attributes) {
+function field(
+  id: string, label: string, choices: readonly Attribute[], value: AttributeChoice,
+  empty = "Choose attribute", names: Record<Attribute, string> = attributes,
+) {
   const options = choices.map((choice) =>
     `<option value="${choice}" ${choice === value ? "selected" : ""}>${names[choice]}</option>`);
   return `<label>${label}
@@ -36,7 +50,9 @@ function field(id, label, choices, value, empty = "Choose attribute", names = at
   </label>`;
 }
 
-function choiceButtons(group, label, selected, allowed, max) {
+function choiceButtons(
+  group: Milestone | "flaws", label: string, selected: readonly Attribute[], allowed: readonly Attribute[], max: number,
+) {
   return `<div class="choices" role="group" aria-label="${label}">
     ${attributeIds.map((id) => {
       const pressed = selected.includes(id);
@@ -49,15 +65,15 @@ function choiceButtons(group, label, selected, allowed, max) {
   </div>`;
 }
 
-function available(allowed, selections, index) {
+function available(allowed: readonly Attribute[], selections: readonly AttributeChoice[], index: number) {
   return allowed.filter((id) => !selections.some((selected, slot) => slot !== index && selected === id));
 }
 
-function countBadge(count, max) {
+function countBadge(count: number, max: number) {
   return `<span class="step-count ${count === max ? "complete" : ""}">${count} / ${max} boosts</span>`;
 }
 
-function setCount(id, count, max) {
+function setCount(id: string, count: number, max: number) {
   const badge = byId(id);
   badge.textContent = `${count} / ${max} boosts`;
   badge.classList.toggle("complete", count === max);
@@ -133,8 +149,8 @@ function renderBackground() {
 function renderClass() {
   const keys = classKeys(build.characterClass);
   const names = build.characterClass === "rogue" ? {
+    ...attributes,
     str: "Strength (Ruffian)",
-    dex: "Dexterity",
     int: "Intelligence (Mastermind)",
     cha: "Charisma (Scoundrel)",
   } : attributes;
@@ -144,7 +160,7 @@ function renderClass() {
   if (keys.length === 0) {
     details.innerHTML = '<p class="muted small option-note">Your class boosts its key attribute.</p>';
   } else if (keys.length === 1) {
-    details.innerHTML = `<div class="fixed"><span class="tag">+1 ${attributes[build.key]}</span></div>`;
+    details.innerHTML = `<div class="fixed"><span class="tag">+1 ${attributes[keys[0]]}</span></div>`;
   } else {
     details.innerHTML = `<div class="fields">
       ${field("key-attribute", "Key attribute", keys, build.key, "Choose key attribute", names)}
@@ -152,7 +168,7 @@ function renderClass() {
   }
 }
 
-function renderMilestones(levels) {
+function renderMilestones(levels: readonly Milestone[]) {
   byId("milestone-choices").innerHTML = levels.map((level) => {
     const label = level === 1 ? "Free boosts" : `Level ${level} boosts`;
     const mark = level === 1 ? "D" : level;
@@ -168,10 +184,10 @@ function renderMilestones(levels) {
   }).join("");
 }
 
-const signed = (value) => value < 0 ? `−${Math.abs(value)}` : `+${value}`;
-const contribution = (value) => `<td class="${value < 0 ? "negative" : value === 0 ? "row-empty" : ""}">${value ? signed(value) : "—"}</td>`;
+const signed = (value: number) => value < 0 ? `−${Math.abs(value)}` : `+${value}`;
+const contribution = (value: number) => `<td class="${value < 0 ? "negative" : value === 0 ? "row-empty" : ""}">${value ? signed(value) : "—"}</td>`;
 
-function renderLedger({ rows, remaining, activeMilestones }) {
+function renderLedger({ rows, remaining, activeMilestones }: ReturnType<typeof calculate>) {
   const advanced = activeMilestones.length > 1;
   byId("advancement-heading").hidden = !advanced;
   byId("character-summary").textContent = [
@@ -206,10 +222,10 @@ function renderLedger({ rows, remaining, activeMilestones }) {
 
 function render() {
   const focus = document.activeElement?.id;
-  byId("ancestry").value = build.ancestry;
-  byId("background").value = build.background;
-  byId("character-class").value = build.characterClass;
-  byId("level").value = build.level;
+  byId("ancestry", HTMLSelectElement).value = build.ancestry;
+  byId("background", HTMLSelectElement).value = build.background;
+  byId("character-class", HTMLSelectElement).value = build.characterClass;
+  byId("level", HTMLSelectElement).value = String(build.level);
   const result = calculate(build);
   renderAncestry();
   renderBackground();
@@ -219,8 +235,8 @@ function render() {
   const undo = byId("undo");
   undo.hidden = !previousBuild;
   if (previousBuild) undo.textContent = previousBuild.label;
-  byId("reset").disabled = serializeBuild(build) === initialBuild;
-  if (focus && document.activeElement === document.body) byId(focus)?.focus({ preventScroll: true });
+  byId("reset", HTMLButtonElement).disabled = serializeBuild(build) === initialBuild;
+  if (focus && document.activeElement === document.body) document.getElementById(focus)?.focus({ preventScroll: true });
 }
 
 function buildUrl(includeDefault = false) {
@@ -237,14 +253,14 @@ function showFeedback(message = "") {
   byId("share-url").hidden = true;
 }
 
-function applyBuild(next, message) {
+function applyBuild(next: Build, message?: string) {
   build = normalizeBuild(next);
   history.replaceState(null, "", buildUrl());
   showFeedback(message);
   render();
 }
 
-function changeBackground(background) {
+function changeBackground(background: string): Partial<Build> {
   const [restricted] = backgroundSlots(background);
   const [first = "", second = ""] = build.backgroundBoosts;
   if (first && restricted?.includes(first)) return { background, backgroundBoosts: [first, second] };
@@ -252,30 +268,31 @@ function changeBackground(background) {
   return { background, backgroundBoosts: ["", second || first] };
 }
 
-const setupChanges = {
+const setupChanges: Partial<Record<string, (value: string) => Partial<Build>>> = {
   ancestry: (value) => ({ ancestry: value }),
   "ancestry-method": (value) => ({ alternate: value === "alternate" }),
-  "custom-flaw": (value) => ({ customFlaw: value }),
+  "custom-flaw": (value) => ({ customFlaw: attributeChoice(value) }),
   background: changeBackground,
   "character-class": (value) => ({ characterClass: value }),
-  "key-attribute": (value) => ({ key: value }),
+  "key-attribute": (value) => ({ key: attributeChoice(value) }),
   level: (value) => ({ level: Number(value) }),
 };
 
-const slotGroups = {
+const slotGroups: Partial<Record<string, "ancestryBoosts" | "backgroundBoosts" | "customFixed">> = {
   "ancestry-boost": "ancestryBoosts",
   "background-boost": "backgroundBoosts",
   "custom-fixed": "customFixed",
 };
 
-byId("setup-title").closest("section").addEventListener("change", ({ target }) => {
+setup.addEventListener("change", ({ target }) => {
+  if (!(target instanceof HTMLSelectElement)) return;
   const { id, value } = target;
   let changes = setupChanges[id]?.(value);
   const slot = id.match(/^(.+)-(\d)$/);
   const group = slot && slotGroups[slot[1]];
   if (slot && group) {
     const choices = [...build[group]];
-    choices[Number(slot[2])] = value;
+    choices[Number(slot[2])] = attributeChoice(value);
     changes = { [group]: choices };
   }
   if (!changes) return;
@@ -288,19 +305,26 @@ byId("setup-title").closest("section").addEventListener("change", ({ target }) =
   applyBuild(next);
 });
 
-function toggle(selected, id) {
+function toggle(selected: readonly Attribute[], id: Attribute) {
   return selected.includes(id) ? selected.filter((value) => value !== id) : [...selected, id];
 }
 
-byId("setup-title").closest("section").addEventListener("click", ({ target }) => {
-  const button = target.closest("button[data-group]");
+setup.addEventListener("click", ({ target }) => {
+  if (!(target instanceof Element)) return;
+  const button = target.closest<HTMLButtonElement>("button[data-group]");
   if (!button || button.disabled) return;
   const { group, attribute } = button.dataset;
-  const changes = group === "flaws"
-    ? { flaws: toggle(build.flaws, attribute) }
-    : { boosts: { ...build.boosts, [group]: toggle(build.boosts[group], attribute) } };
+  if (!isAttribute(attribute)) return;
+  const next = { ...build };
+  if (group === "flaws") {
+    next.flaws = toggle(build.flaws, attribute);
+  } else {
+    const level = milestones.find((milestone) => String(milestone) === group);
+    if (level === undefined) return;
+    next.boosts = { ...build.boosts, [level]: toggle(build.boosts[level], attribute) };
+  }
   previousBuild = null;
-  applyBuild({ ...build, ...changes });
+  applyBuild(next);
 });
 
 byId("share").addEventListener("click", async () => {
@@ -313,7 +337,7 @@ byId("share").addEventListener("click", async () => {
   } catch {
     if (revision !== feedbackRevision) return;
     showFeedback("Copy the selected link to share this build.");
-    const input = byId("share-url");
+    const input = byId("share-url", HTMLInputElement);
     input.value = url.href;
     input.hidden = false;
     input.select();
@@ -330,7 +354,7 @@ byId("export-build").addEventListener("click", () => {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 });
 
-const fileInput = byId("build-file");
+const fileInput = byId("build-file", HTMLInputElement);
 byId("import-build").addEventListener("click", () => fileInput.click());
 fileInput.addEventListener("change", async () => {
   const file = fileInput.files?.[0];
@@ -361,7 +385,7 @@ fileInput.addEventListener("change", async () => {
     previousBuild = { build, label: "Undo import", focusId: "import-build" };
   }
   applyBuild(imported, "Build imported.");
-  if (build.flaws.length) document.querySelector(".flaws").open = true;
+  if (build.flaws.length) flawDetails.open = true;
 });
 
 byId("print").addEventListener("click", () => window.print());
@@ -382,4 +406,4 @@ byId("undo").addEventListener("click", () => {
 
 render();
 if (requestedBuild !== null && !restored) showFeedback("This build link could not be opened. A fresh build is ready.");
-if (build.flaws.length) document.querySelector(".flaws").open = true;
+if (build.flaws.length) flawDetails.open = true;

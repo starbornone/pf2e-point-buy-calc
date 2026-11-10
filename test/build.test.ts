@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculate, normalizeBuild, parseBuild, serializeBuild } from "../public/build.js";
+import { calculate, normalizeBuild, parseBuild, serializeBuild } from "../src/build.ts";
 
 const dwarfDruid = {
   ancestry: "dwarf",
@@ -66,9 +66,11 @@ test("milestones bank partial boosts until a second boost raises the modifier", 
     ...dwarfDruid,
     boosts: { ...dwarfDruid.boosts, 5: ["wis"], 10: ["wis"], 15: ["wis"], 20: ["wis"] },
   };
-  const modifierAt = (level) => {
+  const modifierAt = (level: number) => {
     const { rows } = calculate(normalizeBuild({ ...build, level }));
-    const { total, partial } = rows.find(({ id }) => id === "wis");
+    const wisdom = rows.find(({ id }) => id === "wis");
+    assert.ok(wisdom);
+    const { total, partial } = wisdom;
     return [total, partial];
   };
   assert.deepEqual([4, 5, 9, 10, 15, 20].map(modifierAt), [
@@ -90,9 +92,10 @@ test("versioned share data round-trips custom choices and hidden milestones", ()
     boosts: { 1: ["str"], 5: ["dex"], 20: ["con"] },
   });
   const decoded = parseBuild(serializeBuild(build));
+  assert.ok(decoded);
   assert.deepEqual(decoded, build);
   assert.deepEqual(calculate(decoded).activeMilestones, [1, 5]);
-  assert.equal(calculate(decoded).rows.find(({ id }) => id === "con").total, 1);
+  assert.equal(calculate(decoded).rows.find(({ id }) => id === "con")?.total, 1);
   assert.equal(parseBuild("{"), null);
   assert.equal(parseBuild('{"version":2}'), null);
 });
