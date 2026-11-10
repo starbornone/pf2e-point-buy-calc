@@ -5,6 +5,7 @@ const byId = (id) => document.getElementById(id);
 const requestedBuild = new URLSearchParams(location.search).get("build");
 const restored = requestedBuild === null ? null : parseBuild(requestedBuild);
 const initialBuild = serializeBuild(normalizeBuild());
+const maxBackupSize = 64 * 1024;
 let build = restored ?? normalizeBuild();
 let previousBuild = null;
 let feedbackRevision = 0;
@@ -215,7 +216,9 @@ function render() {
   renderClass();
   renderMilestones(result.activeMilestones);
   renderLedger(result);
-  byId("undo").hidden = !previousBuild;
+  const undo = byId("undo");
+  undo.hidden = !previousBuild;
+  if (previousBuild) undo.textContent = previousBuild.label;
   byId("reset").disabled = serializeBuild(build) === initialBuild;
   if (focus && document.activeElement === document.body) byId(focus)?.focus({ preventScroll: true });
 }
@@ -241,12 +244,20 @@ function applyBuild(next, message) {
   render();
 }
 
+function changeBackground(background) {
+  const [restricted] = backgroundSlots(background);
+  const [first = "", second = ""] = build.backgroundBoosts;
+  if (first && restricted?.includes(first)) return { background, backgroundBoosts: [first, second] };
+  if (second && restricted?.includes(second)) return { background, backgroundBoosts: [second, first] };
+  return { background, backgroundBoosts: ["", second || first] };
+}
+
 const setupChanges = {
-  ancestry: (value) => ({ ancestry: value, ancestryBoosts: [], alternate: false }),
-  "ancestry-method": (value) => ({ alternate: value === "alternate", ancestryBoosts: [] }),
+  ancestry: (value) => ({ ancestry: value }),
+  "ancestry-method": (value) => ({ alternate: value === "alternate" }),
   "custom-flaw": (value) => ({ customFlaw: value }),
-  background: (value) => ({ background: value, backgroundBoosts: [] }),
-  "character-class": (value) => ({ characterClass: value, key: "" }),
+  background: changeBackground,
+  "character-class": (value) => ({ characterClass: value }),
   "key-attribute": (value) => ({ key: value }),
   level: (value) => ({ level: Number(value) }),
 };
@@ -261,16 +272,20 @@ byId("setup-title").closest("section").addEventListener("change", ({ target }) =
   const { id, value } = target;
   let changes = setupChanges[id]?.(value);
   const slot = id.match(/^(.+)-(\d)$/);
-  const group = slotGroups[slot?.[1]];
-  if (group) {
+  const group = slot && slotGroups[slot[1]];
+  if (slot && group) {
     const choices = [...build[group]];
     choices[Number(slot[2])] = value;
     changes = { [group]: choices };
   }
-  if (changes) {
-    previousBuild = null;
-    applyBuild({ ...build, ...changes });
+  if (!changes) return;
+  const next = { ...build, ...changes };
+  if (id === "ancestry" || id === "ancestry-method" || id === "custom-flaw" || group === "customFixed") {
+    const { fixed } = ancestryRule(next);
+    next.ancestryBoosts = build.ancestryBoosts.filter((id) => id && !fixed.includes(id));
   }
+  previousBuild = null;
+  applyBuild(next);
 });
 
 function toggle(selected, id) {
@@ -305,19 +320,64 @@ byId("share").addEventListener("click", async () => {
   }
 });
 
+byId("export-build").addEventListener("click", () => {
+  const blob = new Blob([serializeBuild(build, { backup: true })], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "pathfinder-2e-build.json";
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+});
+
+const fileInput = byId("build-file");
+byId("import-build").addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", async () => {
+  const file = fileInput.files?.[0];
+  fileInput.value = "";
+  if (!file) return;
+  if (file.size > maxBackupSize) {
+    showFeedback("That file is too large to be a Pathfinder build.");
+    return;
+  }
+
+  showFeedback();
+  const revision = feedbackRevision;
+  let contents;
+  try {
+    contents = await file.text();
+  } catch {
+    if (revision === feedbackRevision) showFeedback("The build file could not be read.");
+    return;
+  }
+  if (revision !== feedbackRevision) return;
+
+  const imported = parseBuild(contents, { backup: true });
+  if (!imported) {
+    showFeedback("Choose a JSON file exported by this calculator.");
+    return;
+  }
+  if (serializeBuild(imported) !== serializeBuild(build)) {
+    previousBuild = { build, label: "Undo import", focusId: "import-build" };
+  }
+  applyBuild(imported, "Build imported.");
+  if (build.flaws.length) document.querySelector(".flaws").open = true;
+});
+
 byId("print").addEventListener("click", () => window.print());
 
 byId("reset").addEventListener("click", () => {
-  previousBuild = build;
+  previousBuild = { build, label: "Undo reset", focusId: "reset" };
   applyBuild(normalizeBuild(), "Build reset.");
   byId("undo").focus();
 });
 
 byId("undo").addEventListener("click", () => {
-  const restore = previousBuild;
+  if (!previousBuild) return;
+  const { build: restore, focusId } = previousBuild;
   previousBuild = null;
   applyBuild(restore, "Previous build restored.");
-  byId("reset").focus();
+  byId(focusId).focus();
 });
 
 render();

@@ -107,16 +107,21 @@ export function calculate(build) {
   return { rows, remaining, activeMilestones };
 }
 
-export function serializeBuild(build) {
-  return JSON.stringify({ version: 1, ...build });
+const backupFormat = "pf2e-point-buy-calc";
+
+export function serializeBuild(build, { backup = false } = {}) {
+  const data = { version: 1, ...build };
+  return backup
+    ? JSON.stringify({ format: backupFormat, ...data }, null, 2)
+    : JSON.stringify(data);
 }
 
-export function parseBuild(serialized) {
+export function parseBuild(serialized, { backup = false } = {}) {
   try {
     const value = JSON.parse(serialized);
-    if (value?.version === 1) return normalizeBuild(value);
+    if (value?.version !== 1 || (backup && value.format !== backupFormat)) return null;
+    return normalizeBuild(value);
   } catch {
     return null;
   }
-  return null;
 }

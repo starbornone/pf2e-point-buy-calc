@@ -96,3 +96,11 @@ test("versioned share data round-trips custom choices and hidden milestones", ()
   assert.equal(parseBuild("{"), null);
   assert.equal(parseBuild('{"version":2}'), null);
 });
+
+test("JSON backups restore a build without treating other versioned JSON as a backup", () => {
+  const build = normalizeBuild({ ...dwarfDruid, level: 10, boosts: { ...dwarfDruid.boosts, 10: ["wis"] } });
+  const backup = serializeBuild(build, { backup: true });
+  assert.deepEqual(parseBuild(backup, { backup: true }), build);
+  assert.equal(parseBuild(serializeBuild(build), { backup: true }), null);
+  assert.equal(parseBuild('{"format":"pf2e-point-buy-calc","version":2}', { backup: true }), null);
+});

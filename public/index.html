@@ -115,9 +115,12 @@
               <p class="ledger-note" id="progress" role="status"></p>
               <div class="ledger-actions">
                 <button class="primary" id="share" type="button">Copy build link</button>
+                <button id="export-build" type="button">Export JSON</button>
+                <button id="import-build" type="button">Import JSON</button>
+                <input id="build-file" type="file" accept=".json,application/json" aria-label="Build JSON file" hidden>
                 <button id="print" type="button">Print</button>
                 <button id="reset" type="button">Reset</button>
-                <button id="undo" type="button" hidden>Undo reset</button>
+                <button id="undo" type="button" hidden>Undo</button>
               </div>
               <div class="feedback">
                 <p id="feedback" role="status"></p>
