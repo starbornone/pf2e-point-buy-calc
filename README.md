@@ -9,13 +9,18 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 
 ## Run locally
 
-Use Node.js 22 or newer. The calculator has no package dependencies.
+Use Node.js 22.18+ or 24+. The calculator uses Vite.
 
 ```sh
+npm ci
 npm run dev
 ```
 
-Open [the local calculator](http://127.0.0.1:3001). Run `npm test` to check the boost rules and build links. For static hosting, serve the contents of `public/`.
+Open [the local calculator](http://127.0.0.1:3001). Run `npm test` to check the boost rules and build links. Run `npm run build` to build the static site into `dist/`, then `npm run preview` to check that build locally.
+
+## Deploy to Vercel
+
+Import this repository with `main` as the production branch. Select the **Vite** preset, use `npm run build` as the build command, and serve `dist` as the output directory. Add `pf.starmist.studio` in the project's **Domains** settings.
 
 ## Rules sources
 

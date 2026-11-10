@@ -5,16 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#171311">
     <meta name="description" content="Plan Pathfinder 2e Remaster attributes from ancestry, background, class and free boosts. Track level advancement and share your build.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pathfinder 2e Attribute Calculator">
+    <meta property="og:description" content="Plan and share your Pathfinder 2e Remaster attributes from level 1 to 20.">
+    <meta property="og:url" content="https://pf.starmist.studio/">
     <title>Pathfinder 2e Attribute Calculator</title>
-    <link rel="icon" href="./icon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./styles.css">
-    <script type="module" src="./app.js"></script>
+    <link rel="canonical" href="https://pf.starmist.studio/">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/src/styles.css">
+    <script type="module" src="/app.js"></script>
   </head>
   <body>
     <div class="page">
       <header class="masthead">
         <a class="brand" href="./" aria-label="Pathfinder 2e Attribute Calculator home">
-          <img src="./icon.svg" width="36" height="36" alt="">
+          <img src="/icon.svg" width="36" height="36" alt="">
           <span><strong>Pathfinder 2e</strong><small>Character ledger</small></span>
         </a>
         <nav aria-label="Calculator links">
@@ -45,7 +50,7 @@
 
         <noscript><p class="panel notice">Enable JavaScript to use the attribute calculator.</p></noscript>
         <div class="workspace">
-          <section class="setup" aria-labelledby="setup-title">
+          <section class="setup" id="setup" aria-labelledby="setup-title">
             <div class="section-heading">
               <div><p class="eyebrow">Build planner</p><h2 id="setup-title">Character setup</h2></div>
               <label class="level-control" for="level">Level <select id="level" aria-describedby="level-hint"></select></label>
@@ -60,7 +65,7 @@
               </div>
               <select id="ancestry"></select>
               <div id="ancestry-choices"></div>
-              <details class="flaws">
+              <details class="flaws" id="voluntary-flaws">
                 <summary>Voluntary flaws <span id="flaw-count"></span></summary>
                 <p class="muted small">Each flaw lowers an attribute by 1. You can apply one flaw per attribute.</p>
                 <div id="voluntary-choices"></div>
