@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171311">
+    <meta name="description" content="Plan Pathfinder 2e Remaster attributes from ancestry, background, class and free boosts. Track level advancement and share your build.">
+    <title>Pathfinder 2e Attribute Calculator</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="masthead">
+        <a class="brand" href="./" aria-label="Pathfinder 2e Attribute Calculator home">
+          <img src="./icon.svg" width="36" height="36" alt="">
+          <span><strong>Pathfinder 2e</strong><small>Character ledger</small></span>
+        </a>
+        <nav aria-label="Calculator links">
+          <a href="#rules">Rules guide <span aria-hidden="true">↘</span></a>
+          <a href="https://github.com/starbornone/pf2e-point-buy-calc">Source <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+
+      <main>
+        <header class="hero">
+          <div class="hero-content">
+            <p class="eyebrow"><span class="diamond" aria-hidden="true"></span> Second edition <span class="edition">Remaster</span></p>
+            <h1>Pathfinder 2e <span>Attribute Calculator</span></h1>
+            <p>Plan your ancestry, background, class, and free boosts. Follow every modifier from level 1 to 20.</p>
+            <a class="ledger-jump" href="#ledger">View your modifiers ↓</a>
+          </div>
+          <svg class="hero-mark" viewBox="0 0 240 240" aria-hidden="true" fill="none" stroke="currentColor">
+            <circle cx="120" cy="120" r="107" stroke-dasharray="1 7" stroke-linecap="round"/>
+            <circle cx="120" cy="120" r="95"/>
+            <circle cx="120" cy="120" r="86"/>
+            <circle cx="120" cy="120" r="65" opacity=".5"/>
+            <path d="m120 13 16 73 53-35-35 53 73 16-73 16 35 53-53-35-16 73-16-73-53 35 35-53-73-16 73-16-35-53 53 35z"/>
+            <path d="m120 24 17 79 79 17-79 17-17 79-17-79-79-17 79-17z" fill="currentColor" fill-opacity=".12"/>
+            <path d="M120 24v192M24 120h192" opacity=".4"/>
+            <path d="m120 108 12 12-12 12-12-12z" fill="currentColor"/>
+          </svg>
+        </header>
+
+        <noscript><p class="panel notice">Enable JavaScript to use the attribute calculator.</p></noscript>
+        <div class="workspace">
+          <section class="setup" aria-labelledby="setup-title">
+            <div class="section-heading">
+              <div><p class="eyebrow">Build planner</p><h2 id="setup-title">Character setup</h2></div>
+              <label class="level-control" for="level">Level <select id="level" aria-describedby="level-hint"></select></label>
+              <span id="level-hint" class="sr-only">Advancement boosts unlock at levels 5, 10, 15, and 20.</span>
+            </div>
+
+            <section class="panel step" aria-labelledby="ancestry-title">
+              <div class="step-heading">
+                <span class="step-letter" aria-hidden="true">A</span>
+                <h3 id="ancestry-title"><label for="ancestry">Ancestry</label></h3>
+                <span class="step-count" id="ancestry-count"></span>
+              </div>
+              <select id="ancestry"></select>
+              <div id="ancestry-choices"></div>
+              <details class="flaws">
+                <summary>Voluntary flaws <span id="flaw-count"></span></summary>
+                <p class="muted small">Each flaw lowers an attribute by 1. You can apply one flaw per attribute.</p>
+                <div id="voluntary-choices"></div>
+              </details>
+            </section>
+
+            <section class="panel step" aria-labelledby="background-title">
+              <div class="step-heading">
+                <span class="step-letter" aria-hidden="true">B</span>
+                <h3 id="background-title"><label for="background">Background</label></h3>
+                <span class="step-count" id="background-count"></span>
+              </div>
+              <select id="background"></select>
+              <div id="background-choices"></div>
+            </section>
+
+            <section class="panel step" aria-labelledby="class-title">
+              <div class="step-heading">
+                <span class="step-letter" aria-hidden="true">C</span>
+                <h3 id="class-title"><label for="character-class">Class</label></h3>
+                <span class="step-count" id="class-count"></span>
+              </div>
+              <select id="character-class"></select>
+              <div id="class-choices"></div>
+            </section>
+
+            <div id="milestone-choices"></div>
+          </section>
+
+          <div class="sidebar">
+            <section class="panel ledger" id="ledger" aria-labelledby="ledger-title" tabindex="-1">
+              <div class="ledger-heading">
+                <p class="eyebrow"><span class="diamond" aria-hidden="true"></span> Live character ledger</p>
+                <h2 id="ledger-title">Attribute modifiers</h2>
+                <p class="muted" id="character-summary"></p>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col"><abbr title="Ancestry">Anc</abbr></th>
+                    <th scope="col"><abbr title="Background">Bg</abbr></th>
+                    <th scope="col"><abbr title="Class">Cls</abbr></th>
+                    <th scope="col">Free</th>
+                    <th scope="col" id="advancement-heading" hidden><abbr title="Advancement">Adv</abbr></th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="modifiers"></tbody>
+              </table>
+              <p class="ledger-note" id="partial-note" hidden><span aria-hidden="true">◐</span> A partial boost is banked toward the next +1.</p>
+              <p class="ledger-note" id="progress" role="status"></p>
+              <div class="ledger-actions">
+                <button class="primary" id="share" type="button">Copy build link</button>
+                <button id="print" type="button">Print</button>
+                <button id="reset" type="button">Reset</button>
+                <button id="undo" type="button" hidden>Undo reset</button>
+              </div>
+              <div class="feedback">
+                <p id="feedback" role="status"></p>
+                <input id="share-url" aria-label="Build link" readonly hidden>
+              </div>
+            </section>
+
+            <section class="panel guide" id="rules" aria-labelledby="rules-title">
+              <p class="eyebrow">Player Core rules</p>
+              <h2 id="rules-title">How boosts work</h2>
+              <ol>
+                <li>Start each modifier at +0. Apply your ancestry, background, and class boosts, then choose four different attributes to boost at level 1.</li>
+                <li>At levels 5, 10, 15, and 20, choose four different attributes again.</li>
+                <li>From +4 onward, two boosts at different milestones raise the modifier by 1.</li>
+              </ol>
+              <a href="https://2e.aonprd.com/Rules.aspx?ID=2027">Read the character creation rules ↗</a>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer>Pathfinder is a trademark of Paizo Inc. This is an unofficial fan tool.</footer>
+    </div>
+  </body>
+</html>
