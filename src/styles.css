@@ -204,7 +204,37 @@ tbody td { font-size: .86rem; color: var(--gold); }
 .guide li + li { margin-top: .35rem; }
 .guide a { font-size: .84rem; }
 
-footer { margin: 2rem 0 1rem; padding: .9rem 0; border-top: 1px solid var(--border); color: var(--muted); font-size: .8rem; }
+.site-footer { margin: 2rem 0 1rem; padding: .9rem 0 0; border-top: 1px solid var(--border); }
+.site-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem 1.25rem;
+}
+.site-link-group { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .65rem 1rem; }
+.site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 2.75rem;
+  padding: .35rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: .28rem;
+  background: var(--field);
+  color: var(--text);
+  text-decoration: none;
+  font-size: .85rem;
+}
+.site-link:hover { border-color: var(--gold); background: #382923; color: var(--text); }
+.site-link-icon { width: 1.35rem; height: 1.35rem; flex-shrink: 0; color: var(--gold); }
+.site-link-icon-stroke { width: 1.15rem; height: 1.15rem; }
+.affiliation { margin: .85rem 0 0; color: var(--muted); font-size: .8rem; text-align: center; }
+
+@media (min-width: 40rem) {
+  .site-links { justify-content: space-between; }
+  .affiliation { text-align: left; }
+}
 .notice { margin-top: 1rem; padding: .75rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -231,7 +261,7 @@ footer { margin: 2rem 0 1rem; padding: .9rem 0; border-top: 1px solid var(--bord
 @media print {
   :root { color-scheme: light; --text: #151210; --muted: #4b4139; --gold: #60421d; --border: #bcb3a9; --danger: #8d3024; }
   body, .panel { background: white; }
-  .masthead, .hero, .setup, .ledger-actions, .feedback, .guide { display: none; }
+  .masthead, .hero, .setup, .ledger-actions, .feedback, .guide, .site-footer { display: none; }
   .workspace { display: block; margin-top: 0; }
   .ledger { box-shadow: none; }
 }

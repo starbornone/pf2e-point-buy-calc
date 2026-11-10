@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-10T14:12:33+11:00",
+  "updatedAt": "2026-11-10T14:21:17+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -77,6 +77,13 @@
       "group": "seo",
       "notes": "Canonical stays on https://pf.starmist.studio/ so ?build= share links are not indexed as separate pages.",
       "completedAt": "2026-11-10T14:12:33+11:00"
+    },
+    {
+      "id": "footer-studio-links",
+      "title": "Add Starmist Studio, Ko-fi, and GitHub footer links",
+      "group": "ui",
+      "notes": "Match the D&D calculator footer pattern; hide on print.",
+      "completedAt": "2026-11-10T14:21:17+11:00"
     }
   ]
 }
