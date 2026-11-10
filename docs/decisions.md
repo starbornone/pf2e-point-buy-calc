@@ -42,6 +42,14 @@ Lightweight records inferred from the shipped README and codebase. Newest concep
 
 **Consequences:** Expanding catalogs is a roadmap-friendly increment. UI always needs a coherent custom path (fixed boosts, flaws, key ability, background slots).
 
+## ADR-7 — Canonical site URL and static SEO assets
+
+**Context:** Builds are shared as `?build=` query URLs. Search engines and social crawlers need a single indexable URL plus predictable discovery files on the static host.
+
+**Decision:** Keep `<link rel="canonical">` and `og:url` on `https://pf.starmist.studio/` (no query string). Ship `public/robots.txt`, `public/sitemap.xml`, Open Graph / Twitter image (`og-image.jpg`), and JSON-LD `WebApplication` markup from `index.html`. Vite copies `public/` into `dist/` unchanged.
+
+**Consequences:** Shared builds remain usable but are not separate SEO landing pages. Social previews require the JPEG (SVG favicons are unreliable for crawlers). Sitemap stays one URL unless the product gains more public routes.
+
 ## ADR-6 — Single-step undo for destructive restore actions
 
 **Context:** Reset and import can wipe a carefully tuned build; full history would complicate the no-backend model.

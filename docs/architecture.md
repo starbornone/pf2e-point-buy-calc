@@ -13,6 +13,9 @@ Static Vite + TypeScript single-page calculator. No server runtime beyond the Vi
 | `src/styles.css` | Presentation, including print-oriented styles |
 | `test/build.test.ts` | Node test runner coverage for boost rules and build link/backup round-trips |
 | `public/icon.svg` | Site icon |
+| `public/og-image.jpg` | Open Graph / Twitter share image |
+| `public/robots.txt` | Crawler policy + sitemap pointer |
+| `public/sitemap.xml` | Single canonical URL for the calculator |
 
 ## Data and control flow
 

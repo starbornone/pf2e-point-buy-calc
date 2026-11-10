@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-10T13:32:08+11:00",
+  "updatedAt": "2026-11-10T14:12:33+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -70,6 +70,13 @@
       "group": "docs",
       "notes": "overview, architecture, getting-started, development, contributing, decisions, roadmap-format.",
       "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "improve-seo-basics",
+      "title": "Improve SEO with social meta, JSON-LD, robots, sitemap, and OG image",
+      "group": "seo",
+      "notes": "Canonical stays on https://pf.starmist.studio/ so ?build= share links are not indexed as separate pages.",
+      "completedAt": "2026-11-10T14:12:33+11:00"
     }
   ]
 }
