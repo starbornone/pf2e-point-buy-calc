@@ -144,3 +144,66 @@ test("starting feat slots follow the ancestry and class grants", () => {
   assert.deepEqual(grantedBackgroundFeats("nomad"), ["Assurance (Survival)"]);
   assert.deepEqual(grantedBackgroundFeats("amnesiac"), []);
 });
+
+test("advancement offers the slots the class gains at that level", () => {
+  const slots = (characterClass: string, level: number) =>
+    featSlots({ ancestry: "human", background: "", characterClass }, {}, level);
+  const ids = (characterClass: string, level: number) => slots(characterClass, level).map(({ id }) => id);
+
+  assert.deepEqual(ids("fighter", 5), ["ancestry-5"]);
+  assert.deepEqual(ids("fighter", 19), ["general-19"]);
+  assert.deepEqual(ids("fighter", 20), ["class-20", "skill-20"]);
+  assert.deepEqual(ids("bard", 1), ["ancestry"]);
+  assert.deepEqual(ids("rogue", 5), ["ancestry-5", "skill-5"]);
+  assert.match(slots("investigator", 3).find(({ id }) => id === "skill-3")?.note ?? "", /methodology/);
+  assert.match(slots("swashbuckler", 15).find(({ id }) => id === "skill-15")?.note ?? "", /Acrobatics/);
+  assert.deepEqual(ids("swashbuckler", 11), ["general-11"]);
+
+  const fighterAt18 = slots("fighter", 18).find(({ id }) => id === "class-18");
+  const fighterAt20 = slots("fighter", 20).find(({ id }) => id === "class-20");
+  assert.ok(fighterAt18 && fighterAt20);
+  assert.equal(fighterAt18.options.some(({ id }) => id === "weapon-supremacy"), false);
+  assert.equal(fighterAt20.options.some(({ id }) => id === "weapon-supremacy"), true);
+  assert.equal(fighterAt20.options.some(({ id }) => id === "vicious-swing"), true);
+  assert.equal(slots("fighter", 19)[0].options.some(({ id }) => id === "scare-to-death"), true);
+});
+
+test("share links and JSON backups keep valid planned feats above the character's current level", () => {
+  const build = normalizeBuild({
+    level: 4, ancestry: "human", background: "warrior", characterClass: "fighter",
+    feats: {
+      class: "vicious-swing", "class-4": "weapon-supremacy", "class-6": "vicious-swing",
+      "class-20": "weapon-supremacy", "skill-2": "assurance", "skill-20": "assurance",
+      "skill-4": "intimidating-glare", "general-19": "scare-to-death", "ancestry-9": "cooperative-soul",
+      "class-21": "weapon-supremacy",
+    },
+  });
+  assert.deepEqual(build.feats, {
+    class: "vicious-swing", "skill-2": "assurance", "ancestry-9": "cooperative-soul",
+    "general-19": "scare-to-death", "class-20": "weapon-supremacy", "skill-20": "assurance",
+  });
+  assert.deepEqual(parseBuild(serializeBuild(build)), build);
+  assert.deepEqual(parseBuild(serializeBuild(build, { backup: true }), { backup: true }), build);
+  assert.deepEqual(normalizeBuild({ ...build, level: 1 }).feats, build.feats);
+  const bard = normalizeBuild({ ...build, characterClass: "bard" });
+  assert.equal(bard.feats["class-20"], undefined);
+  assert.equal(bard.feats["general-19"], "scare-to-death");
+});
+
+test("advancement grants enforce their own feat level limits and disappear with the parent choice", () => {
+  const build = normalizeBuild({
+    ancestry: "human", characterClass: "fighter",
+    feats: {
+      "ancestry-13": "advanced-general-training",
+      "grant-ancestry-13": "ancestral-paragon",
+      "grant-grant-ancestry-13": "general-training",
+      "grant-grant-grant-ancestry-13": "toughness",
+    },
+  });
+  assert.equal(build.feats["grant-grant-grant-ancestry-13"], "toughness");
+  assert.equal(featSlots(build, build.feats, 13).find(({ id }) => id === "grant-ancestry-13")
+    ?.options.some(({ id }) => id === "incredible-investiture"), false);
+  assert.deepEqual(normalizeBuild({
+    ...build, feats: { ...build.feats, "ancestry-13": "cooperative-soul" },
+  }).feats, { "ancestry-13": "cooperative-soul" });
+});
