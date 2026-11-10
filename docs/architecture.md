@@ -10,6 +10,9 @@ Static Vite + TypeScript single-page calculator. No server runtime beyond the Vi
 | `src/app.ts` | UI wiring: selects, choice buttons, ledger render, share/export/import/print/undo |
 | `src/build.ts` | Domain model: `Build`, normalize, calculate modifiers, serialize/parse share + backup |
 | `src/options.ts` | Catalogs: attributes, ancestries, backgrounds, classes, milestones |
+| `src/feat-data.ts` | Starting feat catalog and background grants from the Player Core books |
+| `src/feats.ts` | Available starting feat slots and selection validation |
+| `src/feat-picker.ts` | Search dialog and starting feat summary |
 | `src/styles.css` | Presentation, including print-oriented styles |
 | `test/build.test.ts` | Node test runner coverage for boost rules and build link/backup round-trips |
 | `public/icon.svg` | Site icon |
@@ -44,7 +47,8 @@ flowchart LR
 1. On load, `app.ts` reads optional `?build=` from the query string and `parseBuild`s it; otherwise it starts from `normalizeBuild()`.
 2. User edits update an in-memory `Build`. `normalizeBuild` clamps invalid choices (wrong attributes, duplicates, unknown presets).
 3. `calculate(build)` produces per-attribute rows (ancestry / background / class / free / advancement / total / partial) plus remaining boosts.
-4. The ledger and step counts re-render from that result. Share links and backups use `serializeBuild` / `parseBuild` (`version: 1`; backups also require `format: "pf2e-point-buy-calc"`).
+4. The ledger and step counts re-render from that result. The starting feat picker uses the selected ancestry, background, and class to offer slots and display grants.
+5. Share links and backups use `serializeBuild` and `parseBuild` with `version: 1`. Backups also require `format: "pf2e-point-buy-calc"`. The optional `feats` record stores only chosen feats, so earlier links and backups open with empty feat choices.
 
 ## How a change typically lands
 

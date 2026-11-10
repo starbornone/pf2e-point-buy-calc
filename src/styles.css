@@ -178,6 +178,80 @@ button:disabled { cursor: default; color: var(--muted); border-color: var(--bord
 .flaws summary { padding: .45rem 0 .05rem; color: var(--muted); font-size: .85rem; }
 .flaws summary span { margin-left: .25rem; color: var(--gold); }
 
+.feat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: .55rem;
+  margin-top: .65rem;
+}
+
+.feat-card {
+  display: grid;
+  align-content: start;
+  gap: .4rem;
+  padding: .6rem;
+  border: 1px solid var(--border);
+  border-radius: .36rem;
+  font-size: .88rem;
+  overflow-wrap: anywhere;
+}
+
+.feat-meta { color: var(--gold); font-size: .77rem; font-weight: 650; }
+.feat-card a, .feat-preview a { font-size: .81rem; }
+.feat-card button { justify-self: start; }
+
+.feat-summary { margin-top: .8rem; padding-top: .65rem; border-top: 1px solid var(--border); }
+.feat-summary h3 { font-size: 1.15rem; }
+.feat-summary ul { margin: .32rem 0 0; padding-left: 1.1rem; font-size: .85rem; overflow-wrap: anywhere; }
+
+.feat-dialog {
+  width: min(calc(100% - 1.5rem), 36rem);
+  max-height: calc(100dvh - 1.5rem);
+  padding: clamp(.85rem, 3vw, 1.3rem);
+  overflow: auto;
+  color: var(--text);
+}
+
+.feat-dialog::backdrop { background: rgb(15 10 9 / .78); }
+.feat-dialog h2 { margin-bottom: .28rem; }
+.feat-input { display: block; margin: .65rem 0 .2rem; font-size: .85rem; }
+#feat-result-count { margin-top: .4rem; }
+.feat-results {
+  display: grid;
+  gap: .3rem;
+  max-height: 13rem;
+  margin: .35rem 0 .65rem;
+  padding: .12rem .24rem .12rem .12rem;
+  overflow: auto;
+  list-style: none;
+}
+
+.feat-results:empty { display: none; }
+.feat-results button {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: .35rem .65rem;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
+}
+.feat-results button[aria-pressed="true"] { border-color: var(--gold); background: #61402e; }
+.feat-dialog details { margin: .65rem 0; font-size: .85rem; }
+.feat-preview {
+  display: grid;
+  gap: .3rem;
+  padding: .6rem;
+  border: 1px solid var(--border);
+  border-radius: .36rem;
+  background: var(--field);
+  font-size: .88rem;
+  overflow-wrap: anywhere;
+}
+.feat-preview h3 { font-size: 1.2rem; }
+.feat-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; margin-top: .65rem; }
+#feat-clear { margin-right: auto; }
+
 .ledger {
   padding: 1.15rem;
   background: radial-gradient(ellipse at 95% 0, #392620 0, transparent 72%), var(--panel);

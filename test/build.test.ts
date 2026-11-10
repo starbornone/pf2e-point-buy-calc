@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { calculate, normalizeBuild, parseBuild, serializeBuild } from "../src/build.ts";
+import { featSlots, grantedBackgroundFeats } from "../src/feats.ts";
 
 const dwarfDruid = {
   ancestry: "dwarf",
@@ -106,4 +107,40 @@ test("JSON backups restore a build without treating other versioned JSON as a ba
   assert.deepEqual(parseBuild(backup, { backup: true }), build);
   assert.equal(parseBuild(serializeBuild(build), { backup: true }), null);
   assert.equal(parseBuild('{"format":"pf2e-point-buy-calc","version":2}', { backup: true }), null);
+});
+
+test("starting feat choices round-trip through links and backups without changing attribute totals", () => {
+  const build = normalizeBuild({
+    ...dwarfDruid, ancestry: "human", characterClass: "fighter",
+    feats: { ancestry: "natural-ambition", class: "vicious-swing", ambition: "double-slice" },
+  });
+  assert.deepEqual(build.feats, {
+    ancestry: "natural-ambition", class: "vicious-swing", ambition: "double-slice",
+  });
+  assert.deepEqual(parseBuild(serializeBuild(build)), build);
+  assert.deepEqual(parseBuild(serializeBuild(build, { backup: true }), { backup: true }), build);
+  assert.deepEqual(calculate(build), calculate(normalizeBuild({ ...build, feats: {} })));
+
+  const previous = parseBuild('{"version":1,"ancestry":"dwarf","background":"nomad","characterClass":"druid"}');
+  assert.ok(previous);
+  assert.deepEqual(previous.feats, {});
+  assert.equal(Object.hasOwn(JSON.parse(serializeBuild(previous)), "feats"), false);
+});
+
+test("starting feat slots follow the ancestry and class grants", () => {
+  const fighter = normalizeBuild({
+    ancestry: "human", characterClass: "fighter",
+    feats: { ancestry: "natural-ambition", class: "vicious-swing", ambition: "vicious-swing", skill: "assurance" },
+  });
+  assert.deepEqual(fighter.feats, { ancestry: "natural-ambition", class: "vicious-swing" });
+  assert.deepEqual(normalizeBuild({ ...fighter, ancestry: "dwarf", characterClass: "druid" }).feats, {});
+
+  const rogue = normalizeBuild({
+    ancestry: "human", characterClass: "rogue",
+    feats: { ancestry: "general-training", skill: "assurance", training: "toughness" },
+  });
+  assert.deepEqual(featSlots(rogue, rogue.feats).map(({ id }) => id), ["ancestry", "class", "skill", "training"]);
+  assert.deepEqual(rogue.feats, { ancestry: "general-training", skill: "assurance", training: "toughness" });
+  assert.deepEqual(grantedBackgroundFeats("nomad"), ["Assurance (Survival)"]);
+  assert.deepEqual(grantedBackgroundFeats("amnesiac"), []);
 });

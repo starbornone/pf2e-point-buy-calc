@@ -1,5 +1,7 @@
 import { ancestries, attributeIds, backgrounds, classes, isAttribute, milestones } from "./options.ts";
 import type { Attribute, Milestone } from "./options.ts";
+import { normalizeFeats } from "./feats.ts";
+import type { FeatChoices } from "./feats.ts";
 
 export type AttributeChoice = Attribute | "";
 
@@ -16,6 +18,7 @@ export interface Build {
   backgroundBoosts: AttributeChoice[];
   key: AttributeChoice;
   boosts: Record<Milestone, Attribute[]>;
+  feats: FeatChoices;
 }
 
 export function attributeChoice(id: unknown): AttributeChoice {
@@ -103,6 +106,7 @@ export function normalizeBuild(input?: unknown): Build {
     backgroundBoosts: assignSlots(value.backgroundBoosts, backgroundSlots(background)),
     key: keys.length === 1 ? keys[0] : key && keys.includes(key) ? key : "",
     boosts,
+    feats: normalizeFeats(value.feats, { ancestry, background, characterClass }),
   };
 }
 
@@ -144,7 +148,8 @@ export function calculate(build: Build) {
 const backupFormat = "pf2e-point-buy-calc";
 
 export function serializeBuild(build: Build, { backup = false } = {}): string {
-  const data = { version: 1, ...build };
+  const { feats, ...attributes } = build;
+  const data = { version: 1, ...attributes, ...(Object.keys(feats).length ? { feats } : {}) };
   return backup
     ? JSON.stringify({ format: backupFormat, ...data }, null, 2)
     : JSON.stringify(data);

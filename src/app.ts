@@ -2,6 +2,7 @@ import { ancestryRule, attributeChoice, backgroundSlots, calculate, classKeys, n
 import type { AttributeChoice, Build } from "./build.ts";
 import { ancestries, attributeIds, attributes, backgrounds, classes, isAttribute, milestones } from "./options.ts";
 import type { Attribute, Milestone } from "./options.ts";
+import { createFeatPicker } from "./feat-picker.ts";
 
 function byId(id: string): HTMLElement;
 function byId<T extends HTMLElement>(id: string, type: new () => T): T;
@@ -20,6 +21,14 @@ const maxBackupSize = 64 * 1024;
 let build = restored ?? normalizeBuild();
 let previousBuild: { build: Build; label: string; focusId: string } | null = null;
 let feedbackRevision = 0;
+
+const renderFeats = createFeatPicker(
+  byId("starting-feat-choices"), byId("feat-summary"), byId("feat-dialog", HTMLDialogElement),
+  (slot, value) => {
+    previousBuild = null;
+    applyBuild({ ...build, feats: { ...build.feats, [slot]: value } });
+  },
+);
 
 function optionsFor(catalog: Record<string, { name: string; core2?: boolean }>, placeholder: string, custom: string) {
   const entries = Object.entries(catalog);
@@ -237,6 +246,7 @@ function render() {
   renderClass();
   renderMilestones(result.activeMilestones);
   renderLedger(result);
+  renderFeats(build);
   const undo = byId("undo");
   undo.hidden = !previousBuild;
   if (previousBuild) undo.textContent = previousBuild.label;

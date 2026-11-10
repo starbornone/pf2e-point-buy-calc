@@ -129,6 +129,14 @@
             </section>
 
             <div id="starting-boosts"></div>
+            <section class="panel step" aria-labelledby="starting-feats-title">
+              <div class="step-heading">
+                <span class="step-letter" aria-hidden="true">E</span>
+                <h3 id="starting-feats-title">Starting feats</h3>
+              </div>
+              <p class="muted small">Record level 1 feat choices and review any prerequisites on your character sheet.</p>
+              <div id="starting-feat-choices" class="feat-cards"></div>
+            </section>
             <div id="milestone-choices"></div>
           </section>
 
@@ -155,6 +163,7 @@
               </table>
               <p class="ledger-note" id="partial-note" hidden><span aria-hidden="true">◐</span> A partial boost is banked toward the next +1.</p>
               <p class="ledger-note" id="progress" role="status"></p>
+              <section id="feat-summary" class="feat-summary" aria-label="Recorded starting feats" hidden></section>
               <div class="ledger-actions">
                 <button class="primary" id="share" type="button">Copy build link</button>
                 <button id="export-build" type="button">Export JSON</button>
@@ -213,5 +222,24 @@
         <p class="affiliation">Pathfinder is a trademark of Paizo Inc. This is an unofficial fan tool.</p>
       </footer>
     </div>
+    <dialog id="feat-dialog" class="feat-dialog panel" aria-labelledby="feat-dialog-title" aria-describedby="feat-dialog-hint">
+      <h2 id="feat-dialog-title">Choose a feat</h2>
+      <p id="feat-dialog-hint" class="muted small">Browse level 1 feats from Player Core and Player Core 2. Check requirements before choosing.</p>
+      <label class="feat-input" for="feat-search">Search feats</label>
+      <input id="feat-search" type="search" autocomplete="off" placeholder="Name, trait, or prerequisite">
+      <p id="feat-result-count" class="muted small" role="status"></p>
+      <ul id="feat-results" class="feat-results"></ul>
+      <details id="feat-manual-details">
+        <summary>Enter a feat by name</summary>
+        <label class="feat-input" for="feat-manual">Feat name</label>
+        <input id="feat-manual" type="text" autocomplete="off">
+      </details>
+      <section id="feat-preview" class="feat-preview" aria-label="Feat preview" aria-live="polite"></section>
+      <form method="dialog" class="feat-dialog-actions">
+        <button id="feat-clear" type="button" hidden>Remove feat</button>
+        <button type="submit">Cancel</button>
+        <button id="feat-apply" type="button" class="primary" disabled>Use feat</button>
+      </form>
+    </dialog>
   </body>
 </html>

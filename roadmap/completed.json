@@ -91,6 +91,13 @@
       "group": "ui",
       "notes": "Show selected boosts and make legal choices visible for ancestry, background, class, and advancement.",
       "completedAt": "2026-11-10T14:54:00+11:00"
+    },
+    {
+      "id": "searchable-starting-feats",
+      "title": "Add a searchable starting feat picker",
+      "group": "ui",
+      "notes": "Record level 1 feat choices and background grants alongside boosts. Keep version 1 share links and JSON backups compatible.",
+      "completedAt": "2026-11-10T14:54:00+11:00"
     }
   ]
 }
