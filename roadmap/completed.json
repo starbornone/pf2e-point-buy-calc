@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-10T14:21:17+11:00",
+  "updatedAt": "2026-11-10T14:54:00+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -84,6 +84,13 @@
       "group": "ui",
       "notes": "Match the D&D calculator footer pattern; hide on print.",
       "completedAt": "2026-11-10T14:21:17+11:00"
+    },
+    {
+      "id": "named-boost-controls",
+      "title": "Use named controls for attribute boost choices",
+      "group": "ui",
+      "notes": "Show selected boosts and make legal choices visible for ancestry, background, class, and advancement.",
+      "completedAt": "2026-11-10T14:54:00+11:00"
     }
   ]
 }

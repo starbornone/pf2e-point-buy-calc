@@ -50,19 +50,26 @@ function field(
   </label>`;
 }
 
+type BoostGroup = Milestone | "flaws" | "ancestry-free" | "class-key" | `background-${number}`;
+
 function choiceButtons(
-  group: Milestone | "flaws", label: string, selected: readonly Attribute[], allowed: readonly Attribute[], max: number,
+  group: BoostGroup, label: string, selected: readonly Attribute[], options: readonly Attribute[],
+  { limit, blocked = [], names = attributes }: {
+    limit?: number; blocked?: readonly AttributeChoice[]; names?: Record<Attribute, string>;
+  } = {},
 ) {
-  return `<div class="choices" role="group" aria-label="${label}">
-    ${attributeIds.map((id) => {
+  const sign = group === "flaws" ? "−" : "+";
+  return `<fieldset class="boost-group">
+    <legend>${label}</legend>
+    <div class="choices">${options.map((id) => {
       const pressed = selected.includes(id);
-      const disabled = !allowed.includes(id) || (!pressed && selected.length >= max);
-      return `<button id="choice-${group}-${id}" type="button" aria-label="${attributes[id]}"
+      const disabled = blocked.includes(id) || (!pressed && limit !== undefined && selected.length >= limit);
+      return `<button id="choice-${group}-${id}" type="button"
         aria-pressed="${pressed}" data-group="${group}" data-attribute="${id}" ${disabled ? "disabled" : ""}>
-        ${id.toUpperCase()}
+        <span>${names[id]}</span><span class="choice-sign" aria-hidden="true">${sign}${pressed ? "1" : ""}</span>
       </button>`;
-    }).join("")}
-  </div>`;
+    }).join("")}</div>
+  </fieldset>`;
 }
 
 function available(allowed: readonly Attribute[], selections: readonly AttributeChoice[], index: number) {
@@ -104,16 +111,13 @@ function renderAncestry() {
     </div>
     ${customFields}
     ${tags.length ? `<div class="fixed">${tags.join("")}</div>` : ""}
-    <div class="fields">
-      ${build.ancestryBoosts.map((id, index) => field(
-        `ancestry-boost-${index}`, free > 1 ? `Free boost ${index + 1}` : "Free ancestry boost",
-        available(boostChoices, build.ancestryBoosts, index), id,
-      )).join("")}
-    </div>`;
+    ${free ? choiceButtons("ancestry-free", `Choose ${free} free ancestry ${free === 1 ? "boost" : "boosts"}`,
+      build.ancestryBoosts.filter(isAttribute), boostChoices, { limit: free },
+    ) : ""}`;
 
   setCount("ancestry-count", fixed.length + build.ancestryBoosts.filter(Boolean).length, fixed.length + free);
   byId("voluntary-choices").innerHTML = choiceButtons(
-    "flaws", "Voluntary flaws", build.flaws, attributeIds.filter((id) => id !== flaw), 6,
+    "flaws", "Choose voluntary flaws", build.flaws, attributeIds, { blocked: [flaw] },
   );
   byId("flaw-count").textContent = build.flaws.length ? `(${build.flaws.length})` : "";
 }
@@ -140,9 +144,10 @@ function renderBackground() {
   }
 
   byId("background-choices").innerHTML = `
-    <div class="fields">${slots.map((slot, index) => field(
-      `background-boost-${index}`, labels[index], available(slot, choices, index), choices[index],
-    )).join("")}</div>
+    ${slots.map((slot, index) => choiceButtons(
+      `background-${index}`, labels[index], [choices[index]].filter(isAttribute), slot,
+      { blocked: choices.filter((_, choiceIndex) => choiceIndex !== index) },
+    )).join("")}
     ${note ? `<p class="muted small option-note">${note}</p>` : ""}`;
 }
 
@@ -162,14 +167,12 @@ function renderClass() {
   } else if (keys.length === 1) {
     details.innerHTML = `<div class="fixed"><span class="tag">+1 ${attributes[keys[0]]}</span></div>`;
   } else {
-    details.innerHTML = `<div class="fields">
-      ${field("key-attribute", "Key attribute", keys, build.key, "Choose key attribute", names)}
-    </div>`;
+    details.innerHTML = choiceButtons("class-key", "Choose a key attribute", [build.key].filter(isAttribute), keys, { names });
   }
 }
 
 function renderMilestones(levels: readonly Milestone[]) {
-  byId("milestone-choices").innerHTML = levels.map((level) => {
+  const panels = levels.map((level) => {
     const label = level === 1 ? "Free boosts" : `Level ${level} boosts`;
     const mark = level === 1 ? "D" : level;
     const selected = build.boosts[level];
@@ -179,9 +182,11 @@ function renderMilestones(levels: readonly Milestone[]) {
         <h3 id="boosts-${level}-title">${label}</h3>
         ${countBadge(selected.length, 4)}
       </div>
-      ${choiceButtons(level, `Level ${level} boosts`, selected, attributeIds, 4)}
+      ${choiceButtons(level, "Choose four different attributes", selected, attributeIds, { limit: 4 })}
     </section>`;
-  }).join("");
+  });
+  byId("starting-boosts").innerHTML = panels[0];
+  byId("milestone-choices").innerHTML = panels.slice(1).join("");
 }
 
 const signed = (value: number) => value < 0 ? `−${Math.abs(value)}` : `+${value}`;
@@ -274,30 +279,22 @@ const setupChanges: Partial<Record<string, (value: string) => Partial<Build>>> =
   "custom-flaw": (value) => ({ customFlaw: attributeChoice(value) }),
   background: changeBackground,
   "character-class": (value) => ({ characterClass: value }),
-  "key-attribute": (value) => ({ key: attributeChoice(value) }),
   level: (value) => ({ level: Number(value) }),
-};
-
-const slotGroups: Partial<Record<string, "ancestryBoosts" | "backgroundBoosts" | "customFixed">> = {
-  "ancestry-boost": "ancestryBoosts",
-  "background-boost": "backgroundBoosts",
-  "custom-fixed": "customFixed",
 };
 
 setup.addEventListener("change", ({ target }) => {
   if (!(target instanceof HTMLSelectElement)) return;
   const { id, value } = target;
   let changes = setupChanges[id]?.(value);
-  const slot = id.match(/^(.+)-(\d)$/);
-  const group = slot && slotGroups[slot[1]];
-  if (slot && group) {
-    const choices = [...build[group]];
-    choices[Number(slot[2])] = attributeChoice(value);
-    changes = { [group]: choices };
+  const fixedSlot = id.match(/^custom-fixed-(\d)$/);
+  if (fixedSlot) {
+    const customFixed = [...build.customFixed];
+    customFixed[Number(fixedSlot[1])] = attributeChoice(value);
+    changes = { customFixed };
   }
   if (!changes) return;
   const next = { ...build, ...changes };
-  if (id === "ancestry" || id === "ancestry-method" || id === "custom-flaw" || group === "customFixed") {
+  if (id === "ancestry" || id === "ancestry-method" || id === "custom-flaw" || fixedSlot) {
     const { fixed } = ancestryRule(next);
     next.ancestryBoosts = build.ancestryBoosts.filter((id) => id && !fixed.includes(id));
   }
@@ -316,8 +313,17 @@ setup.addEventListener("click", ({ target }) => {
   const { group, attribute } = button.dataset;
   if (!isAttribute(attribute)) return;
   const next = { ...build };
+  const backgroundSlot = group?.match(/^background-(\d)$/);
   if (group === "flaws") {
     next.flaws = toggle(build.flaws, attribute);
+  } else if (group === "ancestry-free") {
+    next.ancestryBoosts = toggle(build.ancestryBoosts.filter(isAttribute), attribute);
+  } else if (group === "class-key") {
+    next.key = build.key === attribute ? "" : attribute;
+  } else if (backgroundSlot) {
+    const index = Number(backgroundSlot[1]);
+    next.backgroundBoosts = [...build.backgroundBoosts];
+    next.backgroundBoosts[index] = build.backgroundBoosts[index] === attribute ? "" : attribute;
   } else {
     const level = milestones.find((milestone) => String(milestone) === group);
     if (level === undefined) return;

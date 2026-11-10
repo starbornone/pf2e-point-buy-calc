@@ -5,6 +5,7 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 - Apply ancestry, background, class, and level 1 free boosts, with an explanation of each contribution in the live ledger.
 - Choose from the ancestries, backgrounds, and classes in *Player Core* and *Player Core 2*, or enter boosts manually for options from other books.
 - Use alternate ancestry boosts and voluntary flaws, and plan advancement through level 20 with partial boosts tracked automatically.
+- Pick boosts with named controls.
 - Share a build by link, export or import a JSON backup, or print the ledger. You can undo a reset or import before making another edit.
 
 ## Documentation

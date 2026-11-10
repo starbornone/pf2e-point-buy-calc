@@ -16,6 +16,7 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 - Choose ancestries, backgrounds, and classes from *Player Core* and *Player Core 2*, or enter boosts manually for options from other books
 - Use alternate ancestry boosts and voluntary flaws
 - Plan advancement through level 20 with partial boosts tracked automatically
+- Assign boosts with named controls
 - Share a build by link, export or import a JSON backup, or print the ledger
 - Undo a reset or import once, before making another edit
 
