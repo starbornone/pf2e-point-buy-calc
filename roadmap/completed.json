@@ -1,0 +1,75 @@
+{
+  "schema": "name-roadmap/v1",
+  "file": "completed",
+  "updatedAt": "2026-11-10T13:32:08+11:00",
+  "project": {
+    "key": "pf2e-point-buy-calc",
+    "title": "Pathfinder 2e Attribute Calculator",
+    "status": "active"
+  },
+  "items": [
+    {
+      "id": "core-attribute-calculator",
+      "title": "Ship browser calculator for Remaster attribute modifiers with live ledger",
+      "group": "product",
+      "notes": "Ancestry, background, class, and level 1 free boosts with per-contribution explanation.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "player-core-catalogs",
+      "title": "Include Player Core and Player Core 2 ancestry, background, and class presets",
+      "group": "catalog",
+      "notes": "Custom options remain for books outside those sources.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "alternate-boosts-and-flaws",
+      "title": "Support alternate ancestry boosts and voluntary flaws",
+      "group": "rules",
+      "notes": "Documented in README; covered by normalize/calculate tests.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "advancement-through-20",
+      "title": "Plan advancement through level 20 with automatic partial boost tracking",
+      "group": "rules",
+      "notes": "Milestones at 1, 5, 10, 15, 20; partial banking asserted in tests.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "share-link-and-json-backup",
+      "title": "Share builds by link and export or import JSON backups",
+      "group": "persistence",
+      "notes": "version 1 payloads; backups require format pf2e-point-buy-calc.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "print-and-undo-restore",
+      "title": "Allow printing the ledger and undoing a reset or import once",
+      "group": "ui",
+      "notes": "Single previousBuild snapshot until the next edit.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "vite-typescript-tooling",
+      "title": "Provide Vite TypeScript local run, test, build, and preview scripts",
+      "group": "dx",
+      "notes": "Node 22.18+ or 24+; npm test uses node --test on boost rules and links.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "vercel-deploy-docs",
+      "title": "Document Vercel deploy with dist output and pf.starmist.studio domain",
+      "group": "docs",
+      "notes": "README Deploy to Vercel section.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    },
+    {
+      "id": "agent-ready-documentation",
+      "title": "Add AGENTS.md, docs slice, and name-roadmap/v1 roadmap files",
+      "group": "docs",
+      "notes": "overview, architecture, getting-started, development, contributing, decisions, roadmap-format.",
+      "completedAt": "2026-11-10T13:32:08+11:00"
+    }
+  ]
+}

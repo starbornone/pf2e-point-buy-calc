@@ -7,6 +7,12 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 - Use alternate ancestry boosts and voluntary flaws, and plan advancement through level 20 with partial boosts tracked automatically.
 - Share a build by link, export or import a JSON backup, or print the ledger. You can undo a reset or import before making another edit.
 
+## Documentation
+
+- [Overview](docs/overview.md) — product summary, audience, and non-goals
+- [AGENTS.md](AGENTS.md) — guidance for coding agents
+- [Roadmap](roadmap/roadmap.json) — planned work (`name-roadmap/v1`)
+
 ## Run locally
 
 Use Node.js 22.18+ or 24+. The calculator uses Vite and TypeScript.

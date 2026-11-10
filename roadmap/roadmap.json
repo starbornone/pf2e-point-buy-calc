@@ -1,0 +1,55 @@
+{
+  "schema": "name-roadmap/v1",
+  "file": "roadmap",
+  "updatedAt": "2026-11-10T13:32:08+11:00",
+  "project": {
+    "key": "pf2e-point-buy-calc",
+    "title": "Pathfinder 2e Attribute Calculator",
+    "status": "active",
+    "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
+  },
+  "items": [
+    {
+      "id": "document-share-backup-format",
+      "title": "Document the share-link and JSON backup payload fields for integrators",
+      "group": "docs",
+      "notes": "Spell out version 1 Build fields, backup format key, and failure modes beside the tests in test/build.test.ts."
+    },
+    {
+      "id": "faq-custom-and-exceptions",
+      "title": "Add a short FAQ for custom entries and exceptions like Raised by Belief",
+      "group": "docs",
+      "notes": "README already points users to pick granted attributes manually; capture common questions without expanding product scope."
+    },
+    {
+      "id": "expand-boost-edge-case-tests",
+      "title": "Extend build tests for remaining normalize and calculate edge cases",
+      "group": "tests",
+      "notes": "Cover voluntary flaw caps, empty background remaining counts, and milestone filtering beyond the current dwarf-druid suite."
+    },
+    {
+      "id": "catalog-more-official-options",
+      "title": "Add carefully sourced ancestry, background, or class rows beyond Player Core 2",
+      "group": "catalog",
+      "notes": "Keep custom entry for unsupported books; only add presets the project is willing to maintain. Assumption: expansion is optional, not required for Remaster correctness."
+    },
+    {
+      "id": "print-ledger-polish",
+      "title": "Improve print stylesheet so the ledger is readable on paper",
+      "group": "ui",
+      "notes": "README already offers print; tighten layout for single-page output without changing calculate semantics."
+    },
+    {
+      "id": "accessibility-pass",
+      "title": "Audit keyboard and screen-reader flow for boost choice controls",
+      "group": "ui",
+      "notes": "Choice buttons already expose aria-pressed; verify focus order, labels, and flaw details across a full build."
+    },
+    {
+      "id": "port-busy-dev-guidance",
+      "title": "Surface clearer recovery when port 3001 is already bound",
+      "group": "dx",
+      "notes": "dev uses --strictPort; document or fail with an actionable message so first-run failures are obvious."
+    }
+  ]
+}
