@@ -23,7 +23,8 @@ let previousBuild: { build: Build; label: string; focusId: string } | null = nul
 let feedbackRevision = 0;
 
 const renderFeats = createFeatPicker(
-  byId("starting-feat-choices"), byId("feat-summary"), byId("feat-dialog", HTMLDialogElement),
+  byId("feat-choices"), byId("feat-summary"), byId("feat-dialog", HTMLDialogElement),
+  byId("feat-level", HTMLSelectElement),
   (slot, value) => {
     previousBuild = null;
     applyBuild({ ...build, feats: { ...build.feats, [slot]: value } });

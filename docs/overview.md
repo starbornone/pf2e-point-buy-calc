@@ -16,19 +16,20 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 - Choose ancestries, backgrounds, and classes from *Player Core* and *Player Core 2*, or enter boosts manually for options from other books
 - Use alternate ancestry boosts and voluntary flaws
 - Plan advancement through level 20 with partial boosts tracked automatically
-- Assign boosts with named controls and browse level 1 ancestry, class, skill, and general feats when the build grants those choices
+- Assign boosts with named controls and plan ancestry, class, skill, and general feats through level 20
+- Browse a feat level independently of the character level used for the modifier ledger
 - See starting feats granted by a background and record feats from other sources by name
 - Share a build by link, export or import a JSON backup, or print the ledger
 - Undo a reset or import once, before making another edit
 
 ## Non-goals
 
-- Full character creation, including skill training, equipment, spells, and feat choices after level 1
+- Full character creation, including skill training, equipment, spells, and automated archetype or variant progression
 - Official Paizo content beyond the Player Core / Player Core 2 catalogs shipped in `src/options.ts` (other books use custom entry)
 - Multi-user accounts, cloud sync, or a backend API — the app is a static Vite site
 - Non-Remaster / legacy PF2e attribute progression as a first-class mode
 
-The planner tracks Remaster attribute progression and starting feat choices. The feat picker shows listed prerequisites for players to check on their character sheet.
+The feat picker filters by slot, class or ancestry, feat level, and repeat limits. Check skill ranks, subclass requirements, and other prerequisites on your character sheet. For a feat outside the catalog, record its name in the appropriate slot.
 
 ## Learn more
 

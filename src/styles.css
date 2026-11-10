@@ -197,12 +197,20 @@ button:disabled { cursor: default; color: var(--muted); border-color: var(--bord
 }
 
 .feat-meta { color: var(--gold); font-size: .77rem; font-weight: 650; }
+.feat-level-control { margin-left: auto; }
 .feat-card a, .feat-preview a { font-size: .81rem; }
 .feat-card button { justify-self: start; }
 
 .feat-summary { margin-top: .8rem; padding-top: .65rem; border-top: 1px solid var(--border); }
 .feat-summary h3 { font-size: 1.15rem; }
-.feat-summary ul { margin: .32rem 0 0; padding-left: 1.1rem; font-size: .85rem; overflow-wrap: anywhere; }
+.feat-summary ul {
+  max-height: 12rem;
+  margin: .32rem 0 0;
+  padding-left: 1.1rem;
+  overflow: auto;
+  font-size: .85rem;
+  overflow-wrap: anywhere;
+}
 
 .feat-dialog {
   width: min(calc(100% - 1.5rem), 36rem);
@@ -345,6 +353,7 @@ tbody td { font-size: .86rem; color: var(--gold); }
 }
 
 @media print {
+  .feat-summary ul { max-height: none; overflow: visible; }
   :root { color-scheme: light; --text: #151210; --muted: #4b4139; --gold: #60421d; --border: #bcb3a9; --danger: #8d3024; }
   body, .panel { background: white; }
   .masthead, .hero, .setup, .ledger-actions, .feedback, .guide, .site-footer { display: none; }

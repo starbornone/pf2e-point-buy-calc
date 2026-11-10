@@ -129,13 +129,16 @@
             </section>
 
             <div id="starting-boosts"></div>
-            <section class="panel step" aria-labelledby="starting-feats-title">
+            <section class="panel step" aria-labelledby="feat-planner-title">
               <div class="step-heading">
                 <span class="step-letter" aria-hidden="true">E</span>
-                <h3 id="starting-feats-title">Starting feats</h3>
+                <h3 id="feat-planner-title">Feat planner</h3>
+                <label class="level-control feat-level-control" for="feat-level">Feat level
+                  <select id="feat-level" aria-describedby="feat-level-hint"></select>
+                </label>
               </div>
-              <p class="muted small">Record level 1 feat choices and review any prerequisites on your character sheet.</p>
-              <div id="starting-feat-choices" class="feat-cards"></div>
+              <p class="muted small" id="feat-level-hint">Plan feats at any level. This level selector only changes the feat choices shown.</p>
+              <div id="feat-choices" class="feat-cards"></div>
             </section>
             <div id="milestone-choices"></div>
           </section>
@@ -163,7 +166,7 @@
               </table>
               <p class="ledger-note" id="partial-note" hidden><span aria-hidden="true">◐</span> A partial boost is banked toward the next +1.</p>
               <p class="ledger-note" id="progress" role="status"></p>
-              <section id="feat-summary" class="feat-summary" aria-label="Recorded starting feats" hidden></section>
+              <section id="feat-summary" class="feat-summary" aria-label="Recorded feats" hidden></section>
               <div class="ledger-actions">
                 <button class="primary" id="share" type="button">Copy build link</button>
                 <button id="export-build" type="button">Export JSON</button>
@@ -224,7 +227,8 @@
     </div>
     <dialog id="feat-dialog" class="feat-dialog panel" aria-labelledby="feat-dialog-title" aria-describedby="feat-dialog-hint">
       <h2 id="feat-dialog-title">Choose a feat</h2>
-      <p id="feat-dialog-hint" class="muted small">Browse level 1 feats from Player Core and Player Core 2. Check requirements before choosing.</p>
+      <p id="feat-dialog-hint" class="muted small">Browse feats from Player Core and Player Core 2. Check requirements before choosing.</p>
+      <p id="feat-slot-note" class="option-note small" hidden></p>
       <label class="feat-input" for="feat-search">Search feats</label>
       <input id="feat-search" type="search" autocomplete="off" placeholder="Name, trait, or prerequisite">
       <p id="feat-result-count" class="muted small" role="status"></p>
