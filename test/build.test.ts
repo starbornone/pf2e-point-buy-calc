@@ -79,6 +79,7 @@ test("milestones bank partial boosts until a second boost raises the modifier", 
   ]);
 });
 
+// The version 1 share and backup contract is documented in docs/build-formats.md.
 test("versioned share data round-trips custom choices and hidden milestones", () => {
   const build = normalizeBuild({
     level: 5,

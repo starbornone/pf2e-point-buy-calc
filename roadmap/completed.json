@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-10T22:00:16+11:00",
+  "updatedAt": "2026-11-11T18:55:35+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -105,6 +105,13 @@
       "group": "ui",
       "notes": "Show feat slots by level and class. Save advancement and granted choices in existing share links and JSON backups.",
       "completedAt": "2026-11-10T22:00:16+11:00"
+    },
+    {
+      "id": "document-share-backup-format",
+      "title": "Document the share-link and JSON backup payload fields for integrators",
+      "group": "docs",
+      "notes": "Spell out version 1 Build fields, backup format key, and failure modes beside the tests in test/build.test.ts.",
+      "completedAt": "2026-11-11T18:55:35+11:00"
     }
   ]
 }

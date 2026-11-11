@@ -12,6 +12,7 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 ## Documentation
 
 - [Overview](docs/overview.md) — product summary, audience, and non-goals
+- [Share links and JSON backups](docs/build-formats.md) — payload reference for integrators
 - [AGENTS.md](AGENTS.md) — guidance for coding agents
 - [Roadmap](roadmap/roadmap.json) — planned work (`name-roadmap/v1`)
 

@@ -35,6 +35,7 @@ The feat picker filters by slot, class or ancestry, feat level, and repeat limit
 
 - [Getting started](getting-started.md) — install, run, verify
 - [Architecture](architecture.md) — modules and data flow
+- [Share links and JSON backups](build-formats.md) — version 1 fields, feat slots, and import behavior
 - [Development](development.md) — local workflow for contributors and agents
 - [Decisions](decisions.md) — key design choices
 - [Roadmap](../roadmap/roadmap.json) — planned work

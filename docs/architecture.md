@@ -48,7 +48,7 @@ flowchart LR
 2. User edits update an in-memory `Build`. `normalizeBuild` clamps invalid choices (wrong attributes, duplicates, unknown presets).
 3. `calculate(build)` produces per-attribute rows (ancestry / background / class / free / advancement / total / partial) plus remaining boosts.
 4. The ledger and step counts re-render from that result. The feat picker uses the selected ancestry, background, and class to offer slots for the feat level being browsed. Recorded choices can extend past the character level used by the ledger.
-5. Share links and backups use `serializeBuild` and `parseBuild` with `version: 1`. Backups also require `format: "pf2e-point-buy-calc"`. The optional `feats` record keeps the original level 1 keys. Advancement keys include the slot and level, such as `class-20`. Extra choices use the parent slot key, such as `grant-general-3` for Ancestral Paragon.
+5. Share links and backups use `serializeBuild` and `parseBuild`. See [share links and JSON backups](build-formats.md) for the version 1 fields, feat slot IDs, and import behavior.
 
 ## How a change typically lands
 
