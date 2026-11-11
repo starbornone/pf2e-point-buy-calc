@@ -1,7 +1,7 @@
 import { ancestryRule, attributeChoice, backgroundSlots, calculate, classKeys, normalizeBuild, parseBuild, serializeBuild } from "./build.ts";
 import type { AttributeChoice, Build } from "./build.ts";
-import { ancestries, attributeIds, attributes, backgrounds, classes, isAttribute, milestones } from "./options.ts";
-import type { Attribute, Milestone } from "./options.ts";
+import { ancestries, attributeIds, attributes, backgrounds, classes, isAttribute, milestones, optionSources } from "./options.ts";
+import type { Attribute, Milestone, OptionSource } from "./options.ts";
 import { createFeatPicker } from "./feat-picker.ts";
 
 function byId(id: string): HTMLElement;
@@ -31,16 +31,18 @@ const renderFeats = createFeatPicker(
   },
 );
 
-function optionsFor(catalog: Record<string, { name: string; core2?: boolean }>, placeholder: string, custom: string) {
+function optionsFor(catalog: Record<string, { name: string; source?: OptionSource }>, placeholder: string, custom: string) {
   const entries = Object.entries(catalog);
-  const group = (core2: boolean) => entries
-    .filter(([, option]) => Boolean(option.core2) === core2)
-    .map(([id, option]) => `<option value="${id}">${option.name}</option>`)
-    .join("");
+  const groups = optionSources.map((source) => {
+    const options = entries
+      .filter(([, option]) => (option.source ?? "Player Core") === source)
+      .map(([id, option]) => `<option value="${id}">${option.name}</option>`)
+      .join("");
+    return options ? `<optgroup label="${source}">${options}</optgroup>` : "";
+  });
   return `
     ${placeholder ? `<option value="">${placeholder}</option>` : ""}
-    <optgroup label="Player Core">${group(false)}</optgroup>
-    <optgroup label="Player Core 2">${group(true)}</optgroup>
+    ${groups.join("")}
     <option value="custom">${custom}</option>`;
 }
 

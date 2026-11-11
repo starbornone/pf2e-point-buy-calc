@@ -13,7 +13,7 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 ## Core capabilities
 
 - Apply ancestry, background, class, and level 1 free boosts, with each contribution explained in a live ledger
-- Choose ancestries, backgrounds, and classes from *Player Core* and *Player Core 2*, or enter boosts manually for options from other books
+- Choose presets from *Player Core* and *Player Core 2* and select ancestries from *Howl of the Wild*. Use custom entries for other options
 - Use alternate ancestry boosts and voluntary flaws
 - Plan advancement through level 20 with partial boosts tracked automatically
 - Assign boosts with named controls and plan ancestry, class, skill, and general feats through level 20
@@ -25,7 +25,7 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 ## Non-goals
 
 - Full character creation, including skill training, equipment, spells, and automated archetype or variant progression
-- Official Paizo content beyond the Player Core / Player Core 2 catalogs shipped in `src/options.ts` (other books use custom entry)
+- Exhaustive coverage of Paizo's published character options
 - Multi-user accounts, cloud sync, or a backend API — the app is a static Vite site
 - Non-Remaster / legacy PF2e attribute progression as a first-class mode
 

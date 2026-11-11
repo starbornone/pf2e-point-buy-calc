@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-11T19:10:26+11:00",
+  "updatedAt": "2026-11-11T19:18:25+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -9,12 +9,6 @@
     "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
   },
   "items": [
-    {
-      "id": "catalog-more-official-options",
-      "title": "Add carefully sourced ancestry, background, or class rows beyond Player Core 2",
-      "group": "catalog",
-      "notes": "Keep custom entry for unsupported books; only add presets the project is willing to maintain. Assumption: expansion is optional, not required for Remaster correctness."
-    },
     {
       "id": "print-ledger-polish",
       "title": "Improve print stylesheet so the ledger is readable on paper",

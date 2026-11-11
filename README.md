@@ -3,9 +3,9 @@
 A browser calculator for planning **Pathfinder Second Edition Remaster** attribute modifiers. Like the companion [D&D calculator](https://github.com/starbornone/dnd-point-buy-calc), it shows where each modifier comes from and lets you share the current build with a link.
 
 - Apply ancestry, background, class, and level 1 free boosts, with an explanation of each contribution in the live ledger.
-- Choose from the ancestries, backgrounds, and classes in *Player Core* and *Player Core 2*, or enter boosts manually for options from other books.
+- Choose from *Player Core* and *Player Core 2* presets, plus Centaur, Minotaur, and Surki from *Howl of the Wild*. Use custom entries for other options.
 - Use alternate ancestry boosts and voluntary flaws, and plan advancement through level 20 with partial boosts tracked automatically.
-- Pick boosts with named controls. Use the separate feat level selector to plan ancestry, class, skill, and general feats through level 20. The picker uses the two Player Core books and shows prerequisites.
+- Pick boosts with named controls. Use the separate feat level selector to plan ancestry, class, skill, and general feats through level 20. The picker shows prerequisites for feats from the two Player Core books. Enter feats from other books by name.
 - See granted background feats and record choices alongside your modifiers. Feat choices for every level are included in share links and JSON backups.
 - Share a build by link, export or import a JSON backup, or print the ledger. You can undo a reset or import before making another edit.
 
@@ -37,6 +37,7 @@ Import this repository with `main` as the production branch. Select the **Vite**
 - [Player Core character creation](https://2e.aonprd.com/Rules.aspx?ID=2027)
 - [Player Core options](https://2e.aonprd.com/Sources.aspx?ID=216)
 - [Player Core 2 options](https://2e.aonprd.com/Sources.aspx?ID=227)
+- *Howl of the Wild* ancestry boosts and flaws for [Centaur](https://2e.aonprd.com/Ancestries.aspx?ID=73), [Minotaur](https://2e.aonprd.com/Ancestries.aspx?ID=75), and [Surki](https://2e.aonprd.com/Ancestries.aspx?ID=76)
 - Feat names, levels, traits, prerequisites, and background grants come from the [Foundry PF2e compendium](https://github.com/foundryvtt/pf2e/tree/2e65a924c7b9e28606d8bc2dfa3ece18976ac0a6/packs/pf2e).
 
 The calculator tracks standard Remaster attribute progression. For help entering boosts for Raised by Belief, see the [FAQ](docs/faq.md#how-do-i-enter-raised-by-belief).

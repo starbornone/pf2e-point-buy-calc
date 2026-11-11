@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-11T19:10:26+11:00",
+  "updatedAt": "2026-11-11T19:18:25+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -126,6 +126,13 @@
       "group": "tests",
       "notes": "Cover voluntary flaw caps, empty background remaining counts, and milestone filtering beyond the current dwarf-druid suite.",
       "completedAt": "2026-11-11T19:10:26+11:00"
+    },
+    {
+      "id": "catalog-more-official-options",
+      "title": "Add carefully sourced ancestry, background, or class rows beyond Player Core 2",
+      "group": "catalog",
+      "notes": "Added Centaur, Minotaur, and Surki from Howl of the Wild with rules citations and a source group in the ancestry menu. Custom entries cover other options.",
+      "completedAt": "2026-11-11T19:18:25+11:00"
     }
   ]
 }

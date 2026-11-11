@@ -33,7 +33,7 @@ AGENTS.md           # Agent working agreements
 ## Safe navigation notes for agents
 
 - **Domain logic lives in `build.ts`.** Prefer fixing modifier math and normalization there, then assert in `test/build.test.ts`.
-- **Catalog data lives in `options.ts`.** New Player Core / Player Core 2 rows belong here; keep ids kebab-case via the existing `catalog()` helper.
+- **Catalog data lives in `options.ts`.** Use the existing `catalog()` helper for kebab-case IDs and add a rules source to the README for new presets.
 - **Do not invent a backend.** Share state is URL + JSON backup only.
 - **Keep `version: 1` share/backup contracts stable** unless you deliberately migrate and update tests.
 - **UI assumes fixed element ids** in `index.html`. Adding controls means updating both the HTML and `app.ts` (`byId` throws if an id is missing).

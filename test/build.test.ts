@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculate, normalizeBuild, parseBuild, serializeBuild } from "../src/build.ts";
+import { ancestryRule, calculate, normalizeBuild, parseBuild, serializeBuild } from "../src/build.ts";
 import { featSlots, grantedBackgroundFeats } from "../src/feats.ts";
 
 const dwarfDruid = {
@@ -20,6 +20,26 @@ test("matches Player Core’s sample dwarf druid", () => {
     id: "wis", ancestry: 1, background: 1, classBoost: 1, free: 1,
     advancement: 0, total: 4, partial: false,
   });
+});
+
+test("Howl of the Wild ancestries apply their printed boosts and flaws and round-trip", () => {
+  const cases = [
+    { ancestry: "centaur", fixed: ["str", "wis"], flaw: "cha", modifiers: [1, 1, 0, 0, 1, -1] },
+    { ancestry: "minotaur", fixed: ["str", "con"], flaw: "cha", modifiers: [1, 1, 1, 0, 0, -1] },
+    { ancestry: "surki", fixed: ["con"], flaw: "", modifiers: [0, 1, 1, 0, 0, 0] },
+  ];
+  for (const { ancestry, fixed, flaw, modifiers } of cases) {
+    const build = normalizeBuild({ ancestry, ancestryBoosts: ["dex", "int"] });
+    assert.equal(build.ancestry, ancestry);
+    assert.deepEqual(ancestryRule(build), { fixed, flaw, free: 1 }, ancestry);
+    assert.deepEqual(build.ancestryBoosts, ["dex"], ancestry);
+    assert.deepEqual(calculate(build).rows.map((row) => row.ancestry), modifiers, ancestry);
+    assert.deepEqual(parseBuild(serializeBuild(build)), build, ancestry);
+    assert.deepEqual(parseBuild(serializeBuild(build, { backup: true }), { backup: true }), build, ancestry);
+
+    const alternate = normalizeBuild({ ...build, alternate: true, ancestryBoosts: ["dex", "int"] });
+    assert.deepEqual(calculate(alternate).rows.map((row) => row.ancestry), [0, 1, 0, 1, 0, 0], ancestry);
+  }
 });
 
 test("alternate ancestry boosts replace both fixed boosts and the printed flaw", () => {

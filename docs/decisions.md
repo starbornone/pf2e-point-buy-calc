@@ -34,13 +34,13 @@ Lightweight records inferred from the shipped README and codebase. Newest concep
 
 **Consequences:** Bumping `version` is a deliberate migration. External tools can interoperate by matching these fields. See tests in `test/build.test.ts` for accepted/rejected shapes.
 
-## ADR-5 — Player Core + Player Core 2 presets, custom for the rest
+## ADR-5 — Source-based presets and custom entries
 
-**Context:** Full multi-book coverage is large; the README promises Core / Core 2 plus manual entry for other sources.
+**Context:** Each additional source adds rules to verify and maintain.
 
-**Decision:** Ship ancestry, background, and class catalogs for *Player Core* and *Player Core 2* only; expose “custom” options for everything else.
+**Decision:** Ship presets from *Player Core* and *Player Core 2* and add selected presets from other official sources. Group presets by book and offer custom entries for options outside the catalog.
 
-**Consequences:** Expanding catalogs is a roadmap-friendly increment. UI always needs a coherent custom path (fixed boosts, flaws, key ability, background slots).
+**Consequences:** Catalog additions need a rules citation. Players can enter fixed boosts, flaws, key attributes, and background boosts through the custom controls.
 
 ## ADR-7 — Canonical site URL and static SEO assets
 

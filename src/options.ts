@@ -18,21 +18,24 @@ export function isAttribute(id: unknown): id is Attribute {
 
 type CatalogRow<T> = [name: string, rule: T];
 
+export const optionSources = ["Player Core", "Player Core 2", "Howl of the Wild"] as const;
+export type OptionSource = typeof optionSources[number];
+
 interface AncestryRule {
   fixed: Attribute[];
   flaw?: Attribute;
-  core2?: boolean;
+  source?: OptionSource;
 }
 
 interface BackgroundRule {
   restricted: Attribute[];
   count: number;
-  core2: boolean;
+  source: OptionSource;
 }
 
 interface ClassRule {
   keys: Attribute[];
-  core2?: boolean;
+  source?: OptionSource;
 }
 
 function catalog<T>(rows: CatalogRow<T>[]): Record<string, T & { name: string }> {
@@ -42,7 +45,7 @@ function catalog<T>(rows: CatalogRow<T>[]): Record<string, T & { name: string }>
   ]));
 }
 
-// Pathfinder Player Core and Player Core 2. Source links are in the README.
+// Source links are in the README.
 export const ancestries = catalog<AncestryRule>([
   ["Dwarf", { fixed: ["con", "wis"], flaw: "cha" }],
   ["Elf", { fixed: ["dex", "int"], flaw: "con" }],
@@ -52,14 +55,17 @@ export const ancestries = catalog<AncestryRule>([
   ["Human", { fixed: [] }],
   ["Leshy", { fixed: ["con", "wis"], flaw: "int" }],
   ["Orc", { fixed: [] }],
-  ["Catfolk", { fixed: ["dex", "cha"], flaw: "wis", core2: true }],
-  ["Hobgoblin", { fixed: ["con", "int"], flaw: "wis", core2: true }],
-  ["Kholo", { fixed: ["str", "int"], flaw: "wis", core2: true }],
-  ["Kobold", { fixed: ["dex", "cha"], flaw: "con", core2: true }],
-  ["Lizardfolk", { fixed: ["str", "wis"], flaw: "int", core2: true }],
-  ["Ratfolk", { fixed: ["dex", "int"], flaw: "str", core2: true }],
-  ["Tengu", { fixed: ["dex"], core2: true }],
-  ["Tripkee", { fixed: ["dex", "wis"], flaw: "str", core2: true }],
+  ["Catfolk", { fixed: ["dex", "cha"], flaw: "wis", source: "Player Core 2" }],
+  ["Hobgoblin", { fixed: ["con", "int"], flaw: "wis", source: "Player Core 2" }],
+  ["Kholo", { fixed: ["str", "int"], flaw: "wis", source: "Player Core 2" }],
+  ["Kobold", { fixed: ["dex", "cha"], flaw: "con", source: "Player Core 2" }],
+  ["Lizardfolk", { fixed: ["str", "wis"], flaw: "int", source: "Player Core 2" }],
+  ["Ratfolk", { fixed: ["dex", "int"], flaw: "str", source: "Player Core 2" }],
+  ["Tengu", { fixed: ["dex"], source: "Player Core 2" }],
+  ["Tripkee", { fixed: ["dex", "wis"], flaw: "str", source: "Player Core 2" }],
+  ["Centaur", { fixed: ["str", "wis"], flaw: "cha", source: "Howl of the Wild" }],
+  ["Minotaur", { fixed: ["str", "con"], flaw: "cha", source: "Howl of the Wild" }],
+  ["Surki", { fixed: ["con"], source: "Howl of the Wild" }],
 ]);
 
 type BackgroundRow = [name: string, restricted: Attribute[], count?: number];
@@ -134,16 +140,16 @@ const backgroundRows2: BackgroundRow[] = [
   ["Ward", ["con", "cha"]],
 ];
 
-function backgroundOptions(rows: BackgroundRow[], core2: boolean): CatalogRow<BackgroundRule>[] {
+function backgroundOptions(rows: BackgroundRow[], source: OptionSource): CatalogRow<BackgroundRule>[] {
   return rows.map(([name, restricted, count = 2]) => [
     name,
-    { restricted: restricted.length ? restricted : attributeIds, count, core2 },
+    { restricted: restricted.length ? restricted : attributeIds, count, source },
   ]);
 }
 
 export const backgrounds = catalog([
-  ...backgroundOptions(backgroundRows, false),
-  ...backgroundOptions(backgroundRows2, true),
+  ...backgroundOptions(backgroundRows, "Player Core"),
+  ...backgroundOptions(backgroundRows2, "Player Core 2"),
 ]);
 
 export const classes = catalog<ClassRule>([
@@ -155,12 +161,12 @@ export const classes = catalog<ClassRule>([
   ["Rogue", { keys: ["str", "dex", "int", "cha"] }],
   ["Witch", { keys: ["int"] }],
   ["Wizard", { keys: ["int"] }],
-  ["Alchemist", { keys: ["int"], core2: true }],
-  ["Barbarian", { keys: ["str"], core2: true }],
-  ["Champion", { keys: ["str", "dex"], core2: true }],
-  ["Investigator", { keys: ["int"], core2: true }],
-  ["Monk", { keys: ["str", "dex"], core2: true }],
-  ["Oracle", { keys: ["cha"], core2: true }],
-  ["Sorcerer", { keys: ["cha"], core2: true }],
-  ["Swashbuckler", { keys: ["dex"], core2: true }],
+  ["Alchemist", { keys: ["int"], source: "Player Core 2" }],
+  ["Barbarian", { keys: ["str"], source: "Player Core 2" }],
+  ["Champion", { keys: ["str", "dex"], source: "Player Core 2" }],
+  ["Investigator", { keys: ["int"], source: "Player Core 2" }],
+  ["Monk", { keys: ["str", "dex"], source: "Player Core 2" }],
+  ["Oracle", { keys: ["cha"], source: "Player Core 2" }],
+  ["Sorcerer", { keys: ["cha"], source: "Player Core 2" }],
+  ["Swashbuckler", { keys: ["dex"], source: "Player Core 2" }],
 ]);
