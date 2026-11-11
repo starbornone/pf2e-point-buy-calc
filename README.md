@@ -12,6 +12,7 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 ## Documentation
 
 - [Overview](docs/overview.md) — product summary, audience, and non-goals
+- [FAQ](docs/faq.md) — custom entries and background exceptions
 - [Share links and JSON backups](docs/build-formats.md) — payload reference for integrators
 - [AGENTS.md](AGENTS.md) — guidance for coding agents
 - [Roadmap](roadmap/roadmap.json) — planned work (`name-roadmap/v1`)
@@ -38,6 +39,6 @@ Import this repository with `main` as the production branch. Select the **Vite**
 - [Player Core 2 options](https://2e.aonprd.com/Sources.aspx?ID=227)
 - Feat names, levels, traits, prerequisites, and background grants come from the [Foundry PF2e compendium](https://github.com/foundryvtt/pf2e/tree/2e65a924c7b9e28606d8bc2dfa3ece18976ac0a6/packs/pf2e).
 
-The calculator tracks standard Remaster attribute progression. For custom entries and backgrounds such as Raised by Belief, select the attributes your source grants.
+The calculator tracks standard Remaster attribute progression. For help entering boosts for Raised by Belief, see the [FAQ](docs/faq.md#how-do-i-enter-raised-by-belief).
 
 Pathfinder is a trademark of Paizo Inc. This is an unofficial fan tool.

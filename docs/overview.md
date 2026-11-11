@@ -34,6 +34,7 @@ The feat picker filters by slot, class or ancestry, feat level, and repeat limit
 ## Learn more
 
 - [Getting started](getting-started.md) — install, run, verify
+- [FAQ](faq.md) — custom entries and background exceptions
 - [Architecture](architecture.md) — modules and data flow
 - [Share links and JSON backups](build-formats.md) — version 1 fields, feat slots, and import behavior
 - [Development](development.md) — local workflow for contributors and agents

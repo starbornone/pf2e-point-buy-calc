@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-11T18:55:35+11:00",
+  "updatedAt": "2026-11-11T19:05:37+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -9,12 +9,6 @@
     "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
   },
   "items": [
-    {
-      "id": "faq-custom-and-exceptions",
-      "title": "Add a short FAQ for custom entries and exceptions like Raised by Belief",
-      "group": "docs",
-      "notes": "README already points users to pick granted attributes manually; capture common questions without expanding product scope."
-    },
     {
       "id": "expand-boost-edge-case-tests",
       "title": "Extend build tests for remaining normalize and calculate edge cases",

@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-11T18:55:35+11:00",
+  "updatedAt": "2026-11-11T19:05:37+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -112,6 +112,13 @@
       "group": "docs",
       "notes": "Spell out version 1 Build fields, backup format key, and failure modes beside the tests in test/build.test.ts.",
       "completedAt": "2026-11-11T18:55:35+11:00"
+    },
+    {
+      "id": "faq-custom-and-exceptions",
+      "title": "Add a short FAQ for custom entries and exceptions like Raised by Belief",
+      "group": "docs",
+      "notes": "README already points users to pick granted attributes manually; capture common questions without expanding product scope.",
+      "completedAt": "2026-11-11T19:05:37+11:00"
     }
   ]
 }
