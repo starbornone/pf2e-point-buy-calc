@@ -36,6 +36,37 @@ test("an ancestry boost can offset a flaw while each attribute receives at most 
   assert.deepEqual(calculate(build).rows.map(({ ancestry }) => ancestry), [0, 0, 1, 0, 0, 0]);
 });
 
+test("voluntary flaws can cover multiple attributes without stacking or granting extra boosts", () => {
+  const input = {
+    ancestry: "custom",
+    customFlaw: "cha",
+    flaws: ["str", "dex", "con", "int", "wis", "cha", "wis", "str", "unknown"],
+  };
+  const standard = normalizeBuild(input);
+  const alternate = normalizeBuild({ ...input, alternate: true });
+
+  assert.deepEqual(standard.flaws, ["str", "dex", "con", "int", "wis"]);
+  assert.deepEqual(alternate.flaws, ["str", "dex", "con", "int", "wis", "cha"]);
+
+  for (const build of [standard, alternate]) {
+    const { rows, remaining } = calculate(build);
+    assert.deepEqual(rows.map(({ ancestry }) => ancestry), [-1, -1, -1, -1, -1, -1]);
+    assert.equal(remaining, calculate({ ...build, flaws: [] }).remaining);
+  }
+});
+
+test("an unselected background leaves two boosts unassigned and contributes no modifiers", () => {
+  for (const background of [undefined, "", "unknown"]) {
+    const build = normalizeBuild({ ...dwarfDruid, background });
+    const { rows, remaining } = calculate(build);
+
+    assert.equal(build.background, "");
+    assert.deepEqual(build.backgroundBoosts, []);
+    assert.ok(rows.every((row) => row.background === 0));
+    assert.equal(remaining, 2);
+  }
+});
+
 test("preset exceptions grant their actual number of background boosts", () => {
   const feralChild = normalizeBuild({ ...dwarfDruid, background: "feral-child", backgroundBoosts: ["wis", "con"] });
   assert.deepEqual(feralChild.backgroundBoosts, [""]);
@@ -60,6 +91,28 @@ test("class choices and boost groups reject invalid attributes and duplicate boo
   assert.equal(build.key, "");
   assert.deepEqual(build.boosts[1], ["wis", "dex", "con", "int"]);
   assert.equal(calculate(build).remaining, 3);
+});
+
+test("only reached milestones affect advancement and remaining boosts at each level", () => {
+  const boosts = { ...dwarfDruid.boosts, 5: ["str"], 10: ["dex"], 15: ["con"], 20: ["int"] };
+  const cases = [
+    { levels: [1, 2, 3, 4], active: [1], advancement: [0, 0, 0, 0, 0, 0], remaining: 0 },
+    { levels: [5, 6, 7, 8, 9], active: [1, 5], advancement: [1, 0, 0, 0, 0, 0], remaining: 3 },
+    { levels: [10, 11, 12, 13, 14], active: [1, 5, 10], advancement: [1, 1, 0, 0, 0, 0], remaining: 6 },
+    { levels: [15, 16, 17, 18, 19], active: [1, 5, 10, 15], advancement: [1, 1, 1, 0, 0, 0], remaining: 9 },
+    { levels: [20], active: [1, 5, 10, 15, 20], advancement: [1, 1, 1, 1, 0, 0], remaining: 12 },
+  ];
+
+  for (const expected of cases) {
+    for (const level of expected.levels) {
+      const build = normalizeBuild({ ...dwarfDruid, level, boosts });
+      const { rows, remaining, activeMilestones } = calculate(build);
+      assert.deepEqual(build.boosts, boosts, `Saved boosts at level ${level}`);
+      assert.deepEqual(activeMilestones, expected.active, `Active milestones at level ${level}`);
+      assert.deepEqual(rows.map(({ advancement }) => advancement), expected.advancement, `Advancement at level ${level}`);
+      assert.equal(remaining, expected.remaining, `Remaining boosts at level ${level}`);
+    }
+  }
 });
 
 test("milestones bank partial boosts until a second boost raises the modifier", () => {

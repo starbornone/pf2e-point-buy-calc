@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-11T19:05:37+11:00",
+  "updatedAt": "2026-11-11T19:10:26+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -119,6 +119,13 @@
       "group": "docs",
       "notes": "README already points users to pick granted attributes manually; capture common questions without expanding product scope.",
       "completedAt": "2026-11-11T19:05:37+11:00"
+    },
+    {
+      "id": "expand-boost-edge-case-tests",
+      "title": "Extend build tests for remaining normalize and calculate edge cases",
+      "group": "tests",
+      "notes": "Cover voluntary flaw caps, empty background remaining counts, and milestone filtering beyond the current dwarf-druid suite.",
+      "completedAt": "2026-11-11T19:10:26+11:00"
     }
   ]
 }
