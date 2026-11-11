@@ -29,6 +29,8 @@ npm run dev
 
 Open [the local calculator](http://127.0.0.1:3001). Run `npm test` to check the boost rules and build links. Run `npm run build` to type-check and build the static site into `dist/`, then `npm run preview` to check that build locally.
 
+If port 3001 is busy, follow the [dev server recovery steps](docs/getting-started.md#port-3001-is-already-in-use).
+
 ## Deploy to Vercel
 
 Import this repository with `main` as the production branch. Select the **Vite** preset, use `npm run build` as the build command, and serve `dist` as the output directory. Add `pf.starmist.studio` in the project's **Domains** settings.

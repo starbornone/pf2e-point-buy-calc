@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-12T09:43:21+11:00",
+  "updatedAt": "2026-11-12T09:47:40+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -147,6 +147,13 @@
       "group": "ui",
       "notes": "Kept boost focus in place, moved advancement boosts ahead of the feat planner, and exposed level-specific group names and the voluntary flaw restriction. Verified keyboard interaction and accessibility tree states in Chrome through level 20.",
       "completedAt": "2026-11-12T09:43:21+11:00"
+    },
+    {
+      "id": "port-busy-dev-guidance",
+      "title": "Surface clearer recovery when port 3001 is already bound",
+      "group": "dx",
+      "notes": "Documented how to identify the listener, reuse or free port 3001, and start Vite on an alternate port. Verified recovery on port 3002.",
+      "completedAt": "2026-11-12T09:47:40+11:00"
     }
   ]
 }

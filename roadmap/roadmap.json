@@ -1,19 +1,12 @@
 {
   "schema": "name-roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-12T09:43:21+11:00",
+  "updatedAt": "2026-11-12T09:47:40+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
     "status": "active",
     "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
   },
-  "items": [
-    {
-      "id": "port-busy-dev-guidance",
-      "title": "Surface clearer recovery when port 3001 is already bound",
-      "group": "dx",
-      "notes": "dev uses --strictPort; document or fail with an actionable message so first-run failures are obvious."
-    }
-  ]
+  "items": []
 }
