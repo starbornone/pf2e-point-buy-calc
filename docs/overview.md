@@ -19,7 +19,8 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 - Assign boosts with named controls and plan ancestry, class, skill, and general feats through level 20
 - Browse a feat level independently of the character level used for the modifier ledger
 - See starting feats granted by a background and record feats from other sources by name
-- Share a build by link, export or import a JSON backup, or print the ledger
+- Share a build by link or export and import a JSON backup
+- Print a one-page attribute ledger with the character summary, boost contributions, totals, and boost notes
 - Undo a reset or import once, before making another edit
 
 ## Non-goals

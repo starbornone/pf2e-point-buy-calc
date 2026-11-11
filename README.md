@@ -7,7 +7,7 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 - Use alternate ancestry boosts and voluntary flaws, and plan advancement through level 20 with partial boosts tracked automatically.
 - Pick boosts with named controls. Use the separate feat level selector to plan ancestry, class, skill, and general feats through level 20. The picker shows prerequisites for feats from the two Player Core books. Enter feats from other books by name.
 - See granted background feats and record choices alongside your modifiers. Feat choices for every level are included in share links and JSON backups.
-- Share a build by link, export or import a JSON backup, or print the ledger. You can undo a reset or import before making another edit.
+- Share a build by link, export or import a JSON backup, or print a one-page attribute ledger. You can undo a reset or import before making another edit.
 
 ## Documentation
 

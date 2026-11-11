@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-11T19:18:25+11:00",
+  "updatedAt": "2026-11-11T20:25:09+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -9,12 +9,6 @@
     "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
   },
   "items": [
-    {
-      "id": "print-ledger-polish",
-      "title": "Improve print stylesheet so the ledger is readable on paper",
-      "group": "ui",
-      "notes": "README already offers print; tighten layout for single-page output without changing calculate semantics."
-    },
     {
       "id": "accessibility-pass",
       "title": "Audit keyboard and screen-reader flow for boost choice controls",

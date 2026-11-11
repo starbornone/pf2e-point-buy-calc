@@ -281,7 +281,7 @@ tbody td { font-size: .86rem; color: var(--gold); }
 .row-empty { color: var(--muted); }
 .negative { color: var(--danger); }
 .total { color: var(--text); font: 1.27rem/1 var(--serif); }
-.short-attribute { display: none; }
+.short-attribute, .print-label { display: none; }
 .partial-mark { color: var(--gold); font: .72rem system-ui, sans-serif; vertical-align: middle; }
 .key-tag { color: var(--gold); font-size: .64rem; }
 
@@ -353,10 +353,54 @@ tbody td { font-size: .86rem; color: var(--gold); }
 }
 
 @media print {
-  .feat-summary ul { max-height: none; overflow: visible; }
-  :root { color-scheme: light; --text: #151210; --muted: #4b4139; --gold: #60421d; --border: #bcb3a9; --danger: #8d3024; }
-  body, .panel { background: white; }
-  .masthead, .hero, .setup, .ledger-actions, .feedback, .guide, .site-footer { display: none; }
-  .workspace { display: block; margin-top: 0; }
-  .ledger { box-shadow: none; }
+  @page { margin: 15mm; }
+
+  :root {
+    color-scheme: light;
+    --text: #171717;
+    --muted: #3d3d3d;
+    --gold: var(--text);
+    --danger: var(--text);
+    --border: #aaa;
+  }
+
+  body { background: white; }
+  .page { max-width: none; padding: 0; }
+  .workspace { display: block; margin: 0; }
+  .sidebar { position: static; }
+
+  .masthead, .hero, .setup, .guide, .site-footer, #feat-dialog,
+  .ledger-actions, .feedback, .feat-summary, .ledger-heading .eyebrow,
+  .ledger thead abbr, .short-attribute { display: none; }
+
+  .print-label, .long-attribute { display: inline; }
+
+  .ledger {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .ledger-heading { margin-bottom: 14pt; }
+  .print-game { display: block; font-size: 10pt; font-weight: 700; }
+  .ledger-heading h2 { margin: 3pt 0; font-size: 22pt; }
+  .ledger-heading > .muted { font-size: 11pt; }
+
+  .ledger :is(th, td) { padding: 6pt 4pt; }
+  .ledger th:first-child { padding-left: 0; }
+  .ledger thead th {
+    border-bottom: 1pt solid var(--text);
+    color: var(--text);
+    font-size: 10pt;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+  .ledger tbody :is(th, td) { font-size: 11pt; }
+  .ledger tr > :last-child { border-left: 1pt solid var(--border); }
+  .ledger tbody .total { font: 700 13pt/1.2 system-ui, sans-serif; }
+  .ledger :is(.key-tag, .partial-mark) { font-size: 9pt; }
+  .ledger-note { margin-top: 8pt; font-size: 10pt; }
+  #progress { padding-left: 0; border: 0; }
 }
