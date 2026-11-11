@@ -44,6 +44,13 @@ AGENTS.md           # Agent working agreements
 - Mirror README / Player Core sample expectations where practical (see the dwarf druid sample test).
 - `npm run build` must pass before treating a change as ready to ship.
 
+### Boost control accessibility checks
+
+- With a dwarf fighter, select a background and set the character to level 20. Tab through ancestry, background, class, and the boost groups for levels 1, 5, 10, 15, and 20. Check that focus is visible, then use Shift+Tab to check the reverse order.
+- Use Space or Enter to select and clear choices. Focus should stay on the toggle. Confirm that unavailable attributes are skipped and that clearing a choice at a boost limit makes the other choices available again.
+- Open and close **Voluntary flaws** with the keyboard. Check the selected count, the explanation for the disabled Charisma option, and the ledger change after selecting or clearing a flaw. Switch to alternate ancestry boosts and confirm that Charisma becomes available.
+- Inspect the browser's accessibility tree for group names, full attribute labels, pressed and disabled states, the flaw group description, and the live remaining-boost status. With a screen reader, listen for those details as you build the character.
+
 ## Documentation and roadmap
 
 When behavior users can see changes, update [README.md](../README.md) and the relevant `docs/` page in the same change. Move roadmap items with the work — see [contributing.md](contributing.md) and [roadmap-format.md](roadmap-format.md).

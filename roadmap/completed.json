@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-11T20:25:09+11:00",
+  "updatedAt": "2026-11-12T09:43:21+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -140,6 +140,13 @@
       "group": "ui",
       "notes": "Print the character summary, full attribute ledger, and boost notes. Verified one page on A4 and US Letter at levels 1 and 20.",
       "completedAt": "2026-11-11T20:25:09+11:00"
+    },
+    {
+      "id": "accessibility-pass",
+      "title": "Audit keyboard and screen-reader flow for boost choice controls",
+      "group": "ui",
+      "notes": "Kept boost focus in place, moved advancement boosts ahead of the feat planner, and exposed level-specific group names and the voluntary flaw restriction. Verified keyboard interaction and accessibility tree states in Chrome through level 20.",
+      "completedAt": "2026-11-12T09:43:21+11:00"
     }
   ]
 }

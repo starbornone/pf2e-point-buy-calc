@@ -103,7 +103,8 @@
               <div id="ancestry-choices"></div>
               <details class="flaws" id="voluntary-flaws">
                 <summary>Voluntary flaws <span id="flaw-count"></span></summary>
-                <p class="muted small">Each flaw lowers an attribute by 1. You can apply one flaw per attribute.</p>
+                <p class="muted small" id="voluntary-flaw-hint">Each flaw lowers an attribute by 1. Select an attribute again to remove its voluntary flaw.</p>
+                <p class="muted small" id="ancestry-flaw-note" hidden></p>
                 <div id="voluntary-choices"></div>
               </details>
             </section>
@@ -129,6 +130,7 @@
             </section>
 
             <div id="starting-boosts"></div>
+            <div id="milestone-choices"></div>
             <section class="panel step" aria-labelledby="feat-planner-title">
               <div class="step-heading">
                 <span class="step-letter" aria-hidden="true">E</span>
@@ -140,7 +142,6 @@
               <p class="muted small" id="feat-level-hint">Plan feats at any level. This level selector only changes the feat choices shown.</p>
               <div id="feat-choices" class="feat-cards"></div>
             </section>
-            <div id="milestone-choices"></div>
           </section>
 
           <div class="sidebar">

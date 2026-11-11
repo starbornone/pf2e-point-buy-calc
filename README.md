@@ -5,6 +5,7 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 - Apply ancestry, background, class, and level 1 free boosts, with an explanation of each contribution in the live ledger.
 - Choose from *Player Core* and *Player Core 2* presets, plus Centaur, Minotaur, and Surki from *Howl of the Wild*. Use custom entries for other options.
 - Use alternate ancestry boosts and voluntary flaws, and plan advancement through level 20 with partial boosts tracked automatically.
+- Use Tab to move through boost controls and Space or Enter to toggle a boost or flaw.
 - Pick boosts with named controls. Use the separate feat level selector to plan ancestry, class, skill, and general feats through level 20. The picker shows prerequisites for feats from the two Player Core books. Enter feats from other books by name.
 - See granted background feats and record choices alongside your modifiers. Feat choices for every level are included in share links and JSON backups.
 - Share a build by link, export or import a JSON backup, or print a one-page attribute ledger. You can undo a reset or import before making another edit.

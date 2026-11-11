@@ -163,6 +163,7 @@ button:disabled { cursor: default; color: var(--muted); border-color: var(--bord
   font-size: .82rem;
 }
 .choice-sign { flex: none; color: var(--gold); font-variant-numeric: tabular-nums; }
+.choices [aria-pressed="true"] .choice-sign::after { content: "1"; }
 .choices :disabled .choice-sign { visibility: hidden; }
 .choices [aria-pressed="true"] { border-color: var(--gold); background: #61402e; color: #fff2df; }
 .choices [data-group="flaws"][aria-pressed="true"] { border-color: var(--danger); background: #5e3029; }

@@ -65,31 +65,47 @@ function field(
 type BoostGroup = Milestone | "flaws" | "ancestry-free" | "class-key" | `background-${number}`;
 
 function choiceButtons(
-  group: BoostGroup, label: string, selected: readonly Attribute[], options: readonly Attribute[],
-  { limit, blocked = [], names = attributes }: {
-    limit?: number; blocked?: readonly AttributeChoice[]; names?: Record<Attribute, string>;
+  group: BoostGroup, label: string, options: readonly Attribute[],
+  { names = attributes, describedBy }: {
+    names?: Record<Attribute, string>; describedBy?: string;
   } = {},
 ) {
   const sign = group === "flaws" ? "−" : "+";
-  return `<fieldset class="boost-group">
+  return `<fieldset id="boost-group-${group}" class="boost-group"${describedBy ? ` aria-describedby="${describedBy}"` : ""}>
     <legend>${label}</legend>
-    <div class="choices">${options.map((id) => {
-      const pressed = selected.includes(id);
-      const disabled = blocked.includes(id) || (!pressed && limit !== undefined && selected.length >= limit);
-      return `<button id="choice-${group}-${id}" type="button"
-        aria-pressed="${pressed}" data-group="${group}" data-attribute="${id}" ${disabled ? "disabled" : ""}>
-        <span>${names[id]}</span><span class="choice-sign" aria-hidden="true">${sign}${pressed ? "1" : ""}</span>
-      </button>`;
-    }).join("")}</div>
+    <div class="choices">${options.map((id) => `<button id="choice-${group}-${id}" type="button"
+      aria-pressed="false" data-group="${group}" data-attribute="${id}">
+      <span>${names[id]}</span><span class="choice-sign" aria-hidden="true">${sign}</span>
+    </button>`).join("")}</div>
   </fieldset>`;
+}
+
+const boostMarkup = new WeakMap<HTMLElement, string>();
+
+function renderBoostMarkup(id: string, markup: string) {
+  const container = byId(id);
+  // Replace controls only when the choices themselves change. Keep focus on existing toggles.
+  if (boostMarkup.get(container) === markup) return;
+  container.innerHTML = markup;
+  boostMarkup.set(container, markup);
+}
+
+function updateChoiceButtons(
+  group: BoostGroup, selected: readonly AttributeChoice[],
+  { limit, blocked = [] }: { limit?: number; blocked?: readonly AttributeChoice[] } = {},
+) {
+  for (const button of byId(`boost-group-${group}`).querySelectorAll("button")) {
+    const id = attributeChoice(button.dataset.attribute);
+    const pressed = selected.includes(id);
+    const disabled = blocked.includes(id) || (!pressed && limit !== undefined && selected.length >= limit);
+    const pressedValue = String(pressed);
+    if (button.getAttribute("aria-pressed") !== pressedValue) button.setAttribute("aria-pressed", pressedValue);
+    button.toggleAttribute("disabled", disabled);
+  }
 }
 
 function available(allowed: readonly Attribute[], selections: readonly AttributeChoice[], index: number) {
   return allowed.filter((id) => !selections.some((selected, slot) => slot !== index && selected === id));
-}
-
-function countBadge(count: number, max: number) {
-  return `<span class="step-count ${count === max ? "complete" : ""}">${count} / ${max} boosts</span>`;
 }
 
 function setCount(id: string, count: number, max: number) {
@@ -112,7 +128,7 @@ function renderAncestry() {
   </div>` : "";
 
   const boostChoices = attributeIds.filter((id) => !fixed.includes(id));
-  byId("ancestry-choices").innerHTML = `
+  renderBoostMarkup("ancestry-choices", `
     <div class="fields">
       <label>Ancestry boost method
         <select id="ancestry-method">
@@ -124,14 +140,20 @@ function renderAncestry() {
     ${customFields}
     ${tags.length ? `<div class="fixed">${tags.join("")}</div>` : ""}
     ${free ? choiceButtons("ancestry-free", `Choose ${free} free ancestry ${free === 1 ? "boost" : "boosts"}`,
-      build.ancestryBoosts.filter(isAttribute), boostChoices, { limit: free },
-    ) : ""}`;
+      boostChoices,
+    ) : ""}`);
 
-  setCount("ancestry-count", fixed.length + build.ancestryBoosts.filter(Boolean).length, fixed.length + free);
-  byId("voluntary-choices").innerHTML = choiceButtons(
-    "flaws", "Choose voluntary flaws", build.flaws, attributeIds, { blocked: [flaw] },
-  );
-  byId("flaw-count").textContent = build.flaws.length ? `(${build.flaws.length})` : "";
+  const selected = build.ancestryBoosts.filter(isAttribute);
+  if (free) updateChoiceButtons("ancestry-free", selected, { limit: free });
+  setCount("ancestry-count", fixed.length + selected.length, fixed.length + free);
+  const flawNote = byId("ancestry-flaw-note");
+  flawNote.textContent = flaw ? `${attributes[flaw]} already has an ancestry flaw.` : "";
+  flawNote.hidden = !flaw;
+  renderBoostMarkup("voluntary-choices", choiceButtons("flaws", "Choose voluntary flaws", attributeIds, {
+    describedBy: "voluntary-flaw-hint ancestry-flaw-note",
+  }));
+  updateChoiceButtons("flaws", build.flaws, { blocked: [flaw] });
+  byId("flaw-count").textContent = build.flaws.length ? `(${build.flaws.length} selected)` : "";
 }
 
 function renderBackground() {
@@ -139,7 +161,7 @@ function renderBackground() {
   const choices = build.backgroundBoosts;
   setCount("background-count", choices.filter(Boolean).length, slots.length || 2);
   if (!build.background) {
-    byId("background-choices").innerHTML = '<p class="muted small option-note">Most backgrounds give you one restricted boost and one free boost.</p>';
+    renderBoostMarkup("background-choices", '<p class="muted small option-note">Most backgrounds give you one restricted boost and one free boost.</p>');
     return;
   }
 
@@ -155,12 +177,14 @@ function renderBackground() {
     note = "Choose the two attributes granted by your background.";
   }
 
-  byId("background-choices").innerHTML = `
+  renderBoostMarkup("background-choices", `
     ${slots.map((slot, index) => choiceButtons(
-      `background-${index}`, labels[index], [choices[index]].filter(isAttribute), slot,
-      { blocked: choices.filter((_, choiceIndex) => choiceIndex !== index) },
+      `background-${index}`, labels[index], slot, { describedBy: index === 0 && note ? "background-note" : undefined },
     )).join("")}
-    ${note ? `<p class="muted small option-note">${note}</p>` : ""}`;
+    ${note ? `<p id="background-note" class="muted small option-note">${note}</p>` : ""}`);
+  choices.forEach((choice, index) => updateChoiceButtons(`background-${index}`, [choice], {
+    blocked: choices.filter((_, choiceIndex) => choiceIndex !== index),
+  }));
 }
 
 function renderClass() {
@@ -173,13 +197,13 @@ function renderClass() {
   } : attributes;
 
   setCount("class-count", Number(Boolean(build.key)), 1);
-  const details = byId("class-choices");
   if (keys.length === 0) {
-    details.innerHTML = '<p class="muted small option-note">Your class boosts its key attribute.</p>';
+    renderBoostMarkup("class-choices", '<p class="muted small option-note">Your class boosts its key attribute.</p>');
   } else if (keys.length === 1) {
-    details.innerHTML = `<div class="fixed"><span class="tag">+1 ${attributes[keys[0]]}</span></div>`;
+    renderBoostMarkup("class-choices", `<div class="fixed"><span class="tag">+1 ${attributes[keys[0]]}</span></div>`);
   } else {
-    details.innerHTML = choiceButtons("class-key", "Choose a key attribute", [build.key].filter(isAttribute), keys, { names });
+    renderBoostMarkup("class-choices", choiceButtons("class-key", "Choose a key attribute", keys, { names }));
+    updateChoiceButtons("class-key", [build.key]);
   }
 }
 
@@ -187,18 +211,22 @@ function renderMilestones(levels: readonly Milestone[]) {
   const panels = levels.map((level) => {
     const label = level === 1 ? "Free boosts" : `Level ${level} boosts`;
     const mark = level === 1 ? "D" : level;
-    const selected = build.boosts[level];
     return `<section class="panel step" aria-labelledby="boosts-${level}-title">
       <div class="step-heading">
         <span class="step-letter" aria-hidden="true">${mark}</span>
         <h3 id="boosts-${level}-title">${label}</h3>
-        ${countBadge(selected.length, 4)}
+        <span class="step-count" id="boosts-${level}-count"></span>
       </div>
-      ${choiceButtons(level, "Choose four different attributes", selected, attributeIds, { limit: 4 })}
+      ${choiceButtons(level, `Choose four different attributes at level ${level}`, attributeIds)}
     </section>`;
   });
-  byId("starting-boosts").innerHTML = panels[0];
-  byId("milestone-choices").innerHTML = panels.slice(1).join("");
+  renderBoostMarkup("starting-boosts", panels[0]);
+  renderBoostMarkup("milestone-choices", panels.slice(1).join(""));
+  for (const level of levels) {
+    const selected = build.boosts[level];
+    updateChoiceButtons(level, selected, { limit: 4 });
+    setCount(`boosts-${level}-count`, selected.length, 4);
+  }
 }
 
 const signed = (value: number) => value < 0 ? `−${Math.abs(value)}` : `+${value}`;

@@ -16,7 +16,8 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 - Choose presets from *Player Core* and *Player Core 2* and select ancestries from *Howl of the Wild*. Use custom entries for other options
 - Use alternate ancestry boosts and voluntary flaws
 - Plan advancement through level 20 with partial boosts tracked automatically
-- Assign boosts with named controls and plan ancestry, class, skill, and general feats through level 20
+- Use Tab to move through starting and advancement boost controls. Use Space or Enter to select or clear a boost or voluntary flaw
+- Plan ancestry, class, skill, and general feats through level 20
 - Browse a feat level independently of the character level used for the modifier ledger
 - See starting feats granted by a background and record feats from other sources by name
 - Share a build by link or export and import a JSON backup
