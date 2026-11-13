@@ -1,11 +1,11 @@
 {
   "schema": "name-roadmap/v1",
   "file": "cancelled",
-  "updatedAt": "2026-11-10T13:32:08+11:00",
+  "updatedAt": "2026-11-14T09:37:15+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
-    "status": "active"
+    "status": "complete"
   },
   "items": []
 }

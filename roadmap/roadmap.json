@@ -1,11 +1,11 @@
 {
   "schema": "name-roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-12T09:47:40+11:00",
+  "updatedAt": "2026-11-14T09:37:15+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
-    "status": "active",
+    "status": "complete",
     "summary": "Browser calculator for Pathfinder 2e Remaster attribute modifiers with a live ledger and shareable builds."
   },
   "items": []
