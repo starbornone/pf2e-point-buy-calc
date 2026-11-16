@@ -106,7 +106,7 @@ result as `backup` to this function.
 ```js
 function shareLink(backup) {
   const { format, ...payload } = backup;
-  const url = new URL("https://pf.starmist.studio/");
+  const url = new URL("https://pf.astralarchives.games/");
   url.searchParams.set("build", JSON.stringify(payload));
   return url.href;
 }

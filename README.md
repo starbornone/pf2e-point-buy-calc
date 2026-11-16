@@ -33,7 +33,7 @@ If port 3001 is busy, follow the [dev server recovery steps](docs/getting-starte
 
 ## Deploy to Vercel
 
-Import this repository with `main` as the production branch. Select the **Vite** preset, use `npm run build` as the build command, and serve `dist` as the output directory. Add `pf.starmist.studio` in the project's **Domains** settings.
+Import this repository with `main` as the production branch. Select the **Vite** preset, use `npm run build` as the build command, and serve `dist` as the output directory. Add `pf.astralarchives.games` in the project's **Domains** settings.
 
 ## Rules sources
 

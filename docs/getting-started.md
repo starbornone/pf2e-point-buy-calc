@@ -82,7 +82,7 @@ Close the app normally if you recognize it and no longer need it. If the app nee
 
 ## Deploy (optional)
 
-Import the repo on Vercel with production branch `main`, Vite preset, build command `npm run build`, output `dist`. Add custom domain `pf.starmist.studio` in Domains if that is your target host.
+Import the repo on Vercel with production branch `main`, Vite preset, build command `npm run build`, output `dist`. Add custom domain `pf.astralarchives.games` in Domains if that is your target host.
 
 ## Rules references
 

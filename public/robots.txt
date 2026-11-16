@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pf.starmist.studio/sitemap.xml
+Sitemap: https://pf.astralarchives.games/sitemap.xml

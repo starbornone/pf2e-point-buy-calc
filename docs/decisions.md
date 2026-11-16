@@ -46,7 +46,7 @@ Lightweight records inferred from the shipped README and codebase. Newest concep
 
 **Context:** Builds are shared as `?build=` query URLs. Search engines and social crawlers need a single indexable URL plus predictable discovery files on the static host.
 
-**Decision:** Keep `<link rel="canonical">` and `og:url` on `https://pf.starmist.studio/` (no query string). Ship `public/robots.txt`, `public/sitemap.xml`, Open Graph / Twitter image (`og-image.jpg`), and JSON-LD `WebApplication` markup from `index.html`. Vite copies `public/` into `dist/` unchanged.
+**Decision:** Keep `<link rel="canonical">` and `og:url` on `https://pf.astralarchives.games/` (no query string). Ship `public/robots.txt`, `public/sitemap.xml`, Open Graph / Twitter image (`og-image.jpg`), and JSON-LD `WebApplication` markup from `index.html`. Vite copies `public/` into `dist/` unchanged.
 
 **Consequences:** Shared builds remain usable but are not separate SEO landing pages. Social previews require the JPEG (SVG favicons are unreliable for crawlers). Sitemap stays one URL unless the product gains more public routes.
 
