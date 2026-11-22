@@ -10,6 +10,8 @@ A browser calculator for planning **Pathfinder Second Edition Remaster** attribu
 - See granted background feats and record choices alongside your modifiers. Feat choices for every level are included in share links and JSON backups.
 - Share a build by link, export or import a JSON backup, or print a one-page attribute ledger. You can undo a reset or import before making another edit.
 
+The homepage footer links to the five other companion tools: [Chronicler](https://www.chronicler.studio/), [D&D Point-Buy Calculator](https://dnd.astralarchives.games/), [Harptos Calendar](https://harptos.astralarchives.games/), [World Binder](https://www.worldbinder.app/), and [Open Tome](https://www.opentome.world/).
+
 ## Documentation
 
 - [Overview](docs/overview.md) — product summary, audience, and non-goals

@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-14T09:37:15+11:00",
+  "updatedAt": "2026-11-22T11:02:58+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -154,6 +154,13 @@
       "group": "dx",
       "notes": "Documented how to identify the listener, reuse or free port 3001, and start Vite on an alternate port. Verified recovery on port 3002.",
       "completedAt": "2026-11-12T09:47:40+11:00"
+    },
+    {
+      "id": "homepage-companion-links",
+      "title": "Add companion tool links to the homepage footer",
+      "group": "ui",
+      "notes": "Added responsive links to Chronicler, D&D Point-Buy Calculator, Harptos Calendar, World Binder, and Open Tome under More for your next session, following Open Tome’s companion section. Uses static accessible navigation, existing colours and focus styles, and is excluded from printed ledgers. Updated README and product overview. All 17 tests and the production build including typechecking passed; browser visual verification was unavailable because the preview browser timed out.",
+      "completedAt": "2026-11-22T11:02:58+11:00"
     }
   ]
 }
