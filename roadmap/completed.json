@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T11:02:58+11:00",
+  "updatedAt": "2026-11-22T11:10:46+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -161,6 +161,13 @@
       "group": "ui",
       "notes": "Added responsive links to Chronicler, D&D Point-Buy Calculator, Harptos Calendar, World Binder, and Open Tome under More for your next session, following Open Tome’s companion section. Uses static accessible navigation, existing colours and focus styles, and is excluded from printed ledgers. Updated README and product overview. All 17 tests and the production build including typechecking passed; browser visual verification was unavailable because the preview browser timed out.",
       "completedAt": "2026-11-22T11:02:58+11:00"
+    },
+    {
+      "id": "companion-links-open-layout",
+      "title": "Match Open Tome’s open companion link layout",
+      "group": "ui",
+      "notes": "Replaced companion cards with unboxed icon-and-text links, small gold outline icons, muted descriptions, and wider spacing, following Open Tome’s homepage. Preserved destinations, responsive columns, keyboard focus indicators, and print exclusion. Updated the product overview. Production build including typechecking passed.",
+      "completedAt": "2026-11-22T11:10:46+11:00"
     }
   ]
 }

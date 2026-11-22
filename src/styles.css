@@ -300,16 +300,16 @@ tbody td { font-size: .86rem; color: var(--gold); }
 .guide a { font-size: .84rem; }
 
 .site-footer { margin: 2rem 0 1rem; padding: .9rem 0 0; border-top: 1px solid var(--border); }
-.companions { padding: .75rem 0 1.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.companions { padding: 1.5rem 0 2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
 .companions-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
 .companions-heading h2 { font-size: 1.65rem; }
 .companions-heading p { color: var(--muted); font-size: .875rem; }
-.companion-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
-.companion-links a { display: block; height: 100%; padding: .85rem; border: 1px solid var(--border); border-radius: .28rem; background: var(--field); text-decoration: none; overflow-wrap: anywhere; }
-.companion-links strong { font-size: 1rem; font-weight: 600; }
-.companion-links span { display: block; margin-top: .35rem; color: var(--muted); font-size: .875rem; }
-.companion-links a:hover { border-color: var(--gold); background: #382923; }
-.companion-links a:hover strong { text-decoration: underline; text-underline-offset: .25em; }
+.companion-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.companion-links a { display: flex; align-items: flex-start; gap: .75rem; min-height: 2.75rem; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
+.companion-links svg { flex: none; margin-top: .2rem; color: var(--gold); }
+.companion-links strong { font-size: .9375rem; font-weight: 550; }
+.companion-links small { display: block; margin-top: .3rem; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+.companion-links a:hover strong { color: var(--gold); text-decoration: underline; text-underline-offset: .25em; }
 .site-links {
   display: flex;
   flex-wrap: wrap;

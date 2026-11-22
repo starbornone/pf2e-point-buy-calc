@@ -24,7 +24,7 @@ It is an unofficial fan tool. Pathfinder is a trademark of Paizo Inc.
 - Print a one-page attribute ledger with the character summary, boost contributions, totals, and boost notes
 - Undo a reset or import once, before making another edit
 
-The homepage footer includes “More for your next session” links to the five other companion tools: [Chronicler](https://www.chronicler.studio/), [D&D Point-Buy Calculator](https://dnd.astralarchives.games/), [Harptos Calendar](https://harptos.astralarchives.games/), [World Binder](https://www.worldbinder.app/), and [Open Tome](https://www.opentome.world/). These static links use a responsive layout and are omitted from the printed ledger.
+The homepage footer includes “More for your next session” links to the five other companion tools: [Chronicler](https://www.chronicler.studio/), [D&D Point-Buy Calculator](https://dnd.astralarchives.games/), [Harptos Calendar](https://harptos.astralarchives.games/), [World Binder](https://www.worldbinder.app/), and [Open Tome](https://www.opentome.world/). These static links pair small gold outline icons with names and descriptions in an open, responsive layout like Open Tome’s companion section. They are omitted from the printed ledger.
 
 ## Non-goals
 
