@@ -304,8 +304,9 @@ tbody td { font-size: .86rem; color: var(--gold); }
 .companions-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
 .companions-heading h2 { font-size: 1.65rem; }
 .companions-heading p { color: var(--muted); font-size: .875rem; }
-.companion-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.companion-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
 .companion-links a { display: flex; align-items: flex-start; gap: .75rem; min-height: 2.75rem; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
+.companion-links a > span { min-width: 0; }
 .companion-links svg { flex: none; margin-top: .2rem; color: var(--gold); }
 .companion-links strong { font-size: .9375rem; font-weight: 550; }
 .companion-links small { display: block; margin-top: .3rem; color: var(--muted); font-size: .875rem; line-height: 1.6; }
@@ -337,13 +338,13 @@ tbody td { font-size: .86rem; color: var(--gold); }
 .affiliation { margin: .85rem 0 0; color: var(--muted); font-size: .8rem; text-align: center; }
 
 @media (min-width: 40rem) {
-  .companion-links { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .companion-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .site-links { justify-content: space-between; }
   .affiliation { text-align: left; }
 }
 
 @media (min-width: 64rem) {
-  .companion-links { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .companion-links { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .notice { margin-top: 1rem; padding: .75rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -359,7 +360,6 @@ tbody td { font-size: .86rem; color: var(--gold); }
 }
 
 @media (max-width: 26rem) {
-  .companion-links { grid-template-columns: minmax(0, 1fr); }
   .page { padding-inline: .75rem; }
   .masthead nav { gap: .65rem; }
   .masthead nav a { font-size: .77rem; }

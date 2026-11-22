@@ -1,7 +1,7 @@
 {
   "schema": "name-roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T11:10:46+11:00",
+  "updatedAt": "2026-11-22T11:29:47+11:00",
   "project": {
     "key": "pf2e-point-buy-calc",
     "title": "Pathfinder 2e Attribute Calculator",
@@ -168,6 +168,13 @@
       "group": "ui",
       "notes": "Replaced companion cards with unboxed icon-and-text links, small gold outline icons, muted descriptions, and wider spacing, following Open Tome’s homepage. Preserved destinations, responsive columns, keyboard focus indicators, and print exclusion. Updated the product overview. Production build including typechecking passed.",
       "completedAt": "2026-11-22T11:10:46+11:00"
+    },
+    {
+      "id": "vtm-companion-responsive-layout",
+      "title": "Add VtM Character Creator and balance companion links across devices",
+      "group": "ui",
+      "notes": "Added https://vtm.astralarchives.games/ with a decorative gold droplet icon and V5 character creation description. Six unboxed companion links now use one column below 40rem, two from 40rem, and three from 64rem; text can shrink and wrap without overflow. Updated README and overview. Browser checked 320, 375, 430, 639, 640, 768, 1023, 1024, 1440 and 1920px widths: six links, no page or link overflow, and minimum target height over 51px. Visually reviewed phone, tablet and desktop; verified Tab reaches the new link with a visible focus outline and no console warnings/errors. Production build including typechecking passed.",
+      "completedAt": "2026-11-22T11:29:47+11:00"
     }
   ]
 }
